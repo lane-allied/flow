@@ -1,199 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Allied Fire - Water Supply Flow Test</title>
-<style>
-  :root {
-    --primary: #003366;
-    --primary-light: #66b3ff;
-    --success: #10b981;
-    --danger: #ef4444;
-    --bg: #f6f7f9;
-    --panel: #ffffff;
-    --border: #e5e7eb;
-    --text: #111827;
-    --muted: #6b7280;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 20px;
-    font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-    color: var(--text);
-    background: var(--bg);
-  }
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .company-header {
-    text-align: center;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 3px solid var(--primary);
-  }
-  .company-name {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--primary);
-    margin: 0;
-  }
-  .company-subtitle {
-    font-size: 14px;
-    color: var(--muted);
-    margin: 4px 0 0 0;
-  }
-  h1 {
-    text-align: center;
-    margin: 0 0 24px;
-    font-size: 24px;
-    color: var(--primary);
-  }
-  h3 {
-    font-size: 16px;
-    margin: 16px 0 8px;
-    font-weight: 600;
-  }
-  .card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 16px;
-  }
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-  .form-group {
-    display: flex;
-    flex-direction: column;
-  }
-  label {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 4px;
-    color: #374151;
-  }
-  input, select {
-    width: 100%;
-    padding: 10px 12px;
-    font-size: 16px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: #fff;
-  }
-  .btn {
-    padding: 10px 16px;
-    border: 1px solid var(--border);
-    background: #fff;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s;
-  }
-  .btn:hover {
-    background: var(--bg);
-  }
-  .btn:active {
-    transform: translateY(1px);
-  }
-  .btn-primary {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
-  }
-  .btn-primary:hover {
-    background: #002247;
-  }
-  .btn-success {
-    background: var(--success);
-    color: #fff;
-    border-color: var(--success);
-  }
-  .btn-danger {
-    background: var(--danger);
-    color: #fff;
-    border-color: var(--danger);
-  }
-  .btn-small {
-    padding: 6px 12px;
-    font-size: 13px;
-  }
-  .toolbar {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    margin-top: 16px;
-  }
-  .zones-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 12px 0;
-  }
-  .zones-table th,
-  .zones-table td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-  .zones-table th {
-    font-weight: 600;
-    background: var(--bg);
-    font-size: 14px;
-  }
-  .zones-table input {
-    padding: 6px 8px;
-    font-size: 14px;
-  }
-  .zone-color {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    display: inline-block;
-    border: 1px solid var(--border);
-  }
-  .graph-container {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px;
-    margin: 16px 0;
-  }
-  .svg-wrap {
-    width: 100%;
-    height: 500px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px;
-  }
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  @media (max-width: 768px) {
-    .form-grid, .two-col {
-      grid-template-columns: 1fr;
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Allied Fire – Water Supply Flow Test</title>
+  <style>
+    :root {
+      --primary: #003366;
+      --primary-light: #66b3ff;
+      --accent: #ffb300; /* additional accent colour */
+      --success: #10b981;
+      --danger: #ef4444;
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --border: #e5e7eb;
+      --text: #111827;
+      --muted: #6b7280;
+      --heading-font: "Segoe UI","Helvetica Neue",Arial,sans‑serif;
+      --body-font: "Arial",sans‑serif;
     }
-  }
-</style>
+    * { box‑sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: var(--body-font);
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: var(--panel);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      padding: 30px;
+      border-radius: 12px;
+    }
+    .company-header {
+      text-align: center;
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 3px solid var(--primary);
+      position: relative;
+    }
+    .company-name {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0;
+      font-family: var(--heading-font);
+    }
+    .company-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 4px 0 0 0;
+    }
+    h1 {
+      text-align: center;
+      margin: 0 0 32px;
+      font-size: 28px;
+      color: var(--primary);
+      font-family: var(--heading-font);
+    }
+    h3 {
+      font-size: 18px;
+      margin: 24px 0 12px;
+      font-weight: 600;
+      font-family: var(--heading-font);
+      color: var(--primary‑light);
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: #374151;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      font-family: var(--body-font);
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255,179,0,0.2);
+    }
+    .btn {
+      padding: 12px 20px;
+      border: none;
+      background: #fff;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      font-family: var(--body-font);
+    }
+    .btn:hover {
+      background: var(--bg);
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: #002247;
+    }
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+      border: none;
+    }
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+      border: none;
+    }
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 13px;
+    }
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      margin-top: 20px;
+    }
+    .zones-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .zones-table th, .zones-table td {
+      padding: 12px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .zones-table th {
+      font-weight: 600;
+      background: var(--bg);
+      font-size: 15px;
+      color: var(--primary);
+    }
+    .zone-color {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      display: inline-block;
+      border: 1px solid var(--border);
+    }
+    .graph-container {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 24px 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+    }
+    .svg-wrap {
+      width: 100%;
+      height: 500px;
+      background: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+    }
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <div class="company-header">
       <div style="position: relative;">
         <span style="position: absolute; top: -10px; left: 0; font-size: 11px; color: var(--muted); font-weight: normal;">v1.57</span>
+        <!-- Optional: Replace with <img src="logo.png" alt="Logo" style="height:50px; margin-bottom:12px;"> -->
         <h1 class="company-name">🔥 ALLIED FIRE PROTECTION PTY LTD</h1>
       </div>
-      <p class="company-subtitle">Fire Protection Contractors - Fire Protection Engineers</p>
+      <p class="company-subtitle">Fire Protection Contractors ‑ Fire Protection Engineers</p>
     </div>
 
     <h1>Water Supply Flow Test</h1>
@@ -217,7 +230,7 @@
         <div class="form-group">
           <label for="testType">Type of Flow Test</label>
           <select id="testType">
-            <option value="">Select test type...</option>
+            <option value="">Select test type…</option>
             <option value="Towns Main">Towns Main</option>
             <option value="Diesel Pump 1">Diesel Pump 1</option>
             <option value="Diesel Pump 2">Diesel Pump 2</option>
@@ -246,13 +259,12 @@
 
     <!-- Flow Test -->
     <div class="card">
-      <h3>Flow Test - Water Supply Analysis</h3>
-      
-      <div class="two-col">
+      <h3>Flow Test – Water Supply Analysis</h3>
+      <div class="two-col" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
         <div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; justify-content: space-between; align-items:center;">
             <strong>System Requirements (Zones)</strong>
-            <button class="btn btn-small" id="addZoneBtn" ontouchstart="addZone()" onclick="addZone()">+ Add Zone</button>
+            <button class="btn btn-small" id="addZoneBtn" onclick="addZone()">+ Add Zone</button>
           </div>
           <table class="zones-table">
             <thead>
@@ -267,11 +279,10 @@
             <tbody id="zonesTable"></tbody>
           </table>
         </div>
-
         <div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; justify-content: space-between; align-items:center;">
             <strong>Achieved Test Results</strong>
-            <button class="btn btn-small" id="addAchievedBtn" ontouchstart="addAchieved()" onclick="addAchieved()">+ Add Point</button>
+            <button class="btn btn-small" id="addAchievedBtn" onclick="addAchieved()">+ Add Point</button>
           </div>
           <table class="zones-table">
             <thead>
@@ -286,7 +297,7 @@
         </div>
       </div>
 
-      <div class="form-group" style="margin-top: 16px;">
+      <div class="form-group" style="margin-top:16px;">
         <label for="equipment">Equipment Used</label>
         <input type="text" id="equipment" list="equipmentList" placeholder="e.g., Vernon Morris Flow Meter">
         <datalist id="equipmentList">
@@ -305,362 +316,318 @@
       </div>
 
       <div class="graph-container">
-        <strong>Water Supply Analysis Graph</strong>
+        <strong style="display:block; margin-bottom:12px;">Water Supply Analysis Graph</strong>
         <div class="svg-wrap">
           <svg id="flowGraph" viewBox="0 0 1000 500" width="100%" height="100%"></svg>
         </div>
       </div>
 
-      <div style="margin-top: 16px;">
-        <button class="btn btn-primary" id="calculateBtn" ontouchstart="calculateResult()" onclick="calculateResult()">Calculate Pass/Fail</button>
+      <div style="margin-top:16px;">
+        <button class="btn btn-primary" id="calculateBtn" onclick="calculateResult()">Calculate Pass/Fail</button>
       </div>
 
-      <div id="resultDisplay"></div>
+      <div id="resultDisplay" style="margin-top:16px;"></div>
     </div>
 
     <!-- Toolbar -->
     <div class="toolbar">
-      <button class="btn" id="saveBtn" ontouchstart="saveTest()" onclick="saveTest()">💾 Save Test</button>
-      <button class="btn" id="loadBtn" ontouchstart="loadTest()" onclick="loadTest()">📂 Load Test</button>
-      <button class="btn" id="resetBtn" ontouchstart="resetAll()" onclick="resetAll()">🔄 Reset All</button>
-      <button class="btn" id="exportPngBtn" ontouchstart="exportPNG()" onclick="exportPNG()">🖼️ Export PNG</button>
-      <button class="btn" id="viewTextBtn" ontouchstart="viewReportText()" onclick="viewReportText()">📄 View Report Text</button>
-      <button class="btn" id="copyBtn" ontouchstart="copyReport()" onclick="copyReport()">📋 Copy Report</button>
-      <button class="btn btn-success" id="emailBtn" ontouchstart="emailReport()" onclick="emailReport()">📧 Email Report</button>
+      <button class="btn" id="saveBtn" onclick="saveTest()">💾 Save Test</button>
+      <button class="btn" id="loadBtn" onclick="loadTest()">📂 Load Test</button>
+      <button class="btn" id="resetBtn" onclick="resetAll()">🔄 Reset All</button>
+      <button class="btn" id="exportPngBtn" onclick="exportPNG()">🖼️ Export PNG</button>
+      <button class="btn" id="viewTextBtn" onclick="viewReportText()">📄 View Report Text</button>
+      <button class="btn" id="copyBtn" onclick="copyReport()">📋 Copy Report</button>
+      <button class="btn btn-success" id="emailBtn" onclick="emailReport()">📧 Email Report</button>
     </div>
 
     <!-- Report Text Modal -->
-    <div id="reportModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; padding: 20px;">
-      <div style="background: white; max-width: 800px; margin: 40px auto; padding: 20px; border-radius: 12px; max-height: 80vh; overflow-y: auto;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <h3 style="margin: 0;">Report Text</h3>
-          <button class="btn" id="closeModalBtn" ontouchstart="closeReportModal()" onclick="closeReportModal()">✕ Close</button>
+    <div id="reportModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z‑index:1000; padding:20px;">
+      <div style="background:white; max-width:800px; margin:40px auto; padding:20px; border-radius:12px; max-height:80vh; overflow-y:auto;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h3 style="margin:0; font-family:var(--heading-font); color:var(--primary);">Report Text</h3>
+          <button class="btn" id="closeModalBtn" onclick="closeReportModal()">✕ Close</button>
         </div>
-        <p style="color: var(--muted); font-size: 14px; margin-bottom: 12px;">
-          Tap and hold the text below, select all, then copy to share this report.
+        <p style="color:var(--muted); font-size:14px; margin-bottom:12px;">
+          Tap and hold the text below, then copy to share this report.
         </p>
-        <textarea id="reportTextArea" readonly style="width: 100%; min-height: 400px; font-family: monospace; font-size: 13px; padding: 12px; border: 1px solid var(--border); border-radius: 8px;"></textarea>
+        <textarea id="reportTextArea" readonly style="width:100%; min-height:400px; font-family:monospace; font-size:13px; padding:12px; border:1px solid var(--border); border-radius:8px;"></textarea>
       </div>
     </div>
+
   </div>
 
-<script>
-// Make everything explicitly global for iPhone
-window.zoneColors = ['#e74c3c', '#f39c12', '#3498db', '#2ecc71', '#9b59b6', '#1abc9c'];
-window.zones = [];
-window.achieved = [];
+  <script>
+  // Global arrays
+  window.zoneColors = ['#e74c3c','#f39c12','#3498db','#2ecc71','#9b59b6','#1abc9c'];
+  window.zones = [];
+  window.achieved = [];
 
-// Set today's date
-document.getElementById('dateTest').valueAsDate = new Date();
+  document.getElementById('dateTest').valueAsDate = new Date();
 
-window.addZone = function() {
-  console.log('addZone called');
-  if (window.zones.length >= 6) {
-    alert('Maximum 6 zones allowed');
-    return;
-  }
-  const zoneLetter = String.fromCharCode(65 + window.zones.length);
-  window.zones.push({ name: `Zone ${zoneLetter}`, flow: '', pressure: '' });
-  window.render();
-}
-
-window.removeZone = function(idx) {
-  console.log('removeZone called', idx);
-  window.zones.splice(idx, 1);
-  window.render();
-}
-
-window.updateZone = function(idx, field, value) {
-  if (window.zones[idx]) {
-    window.zones[idx][field] = value;
-    window.drawGraph();
-  }
-}
-
-window.addAchieved = function() {
-  console.log('addAchieved called');
-  window.achieved.push({ flow: '', pressure: '' });
-  window.render();
-}
-
-window.removeAchieved = function(idx) {
-  console.log('removeAchieved called', idx);
-  window.achieved.splice(idx, 1);
-  window.render();
-}
-
-window.updateAchieved = function(idx, field, value) {
-  if (window.achieved[idx]) {
-    window.achieved[idx][field] = value;
-    window.drawGraph();
-  }
-}
-
-window.render = function() {
-  const zonesTable = document.getElementById('zonesTable');
-  const achievedTable = document.getElementById('achievedTable');
-  
-  zonesTable.innerHTML = window.zones.map((zone, idx) => `
-    <tr>
-      <td><span class="zone-color" style="background: ${window.zoneColors[idx % window.zoneColors.length]}"></span></td>
-      <td><input type="text" value="${zone.name || ''}" onchange="window.updateZone(${idx}, 'name', this.value)" placeholder="Zone ${String.fromCharCode(65 + idx)}"></td>
-      <td><input type="number" step="any" value="${zone.flow || ''}" onchange="window.updateZone(${idx}, 'flow', this.value)" placeholder="Flow"></td>
-      <td><input type="number" step="any" value="${zone.pressure || ''}" onchange="window.updateZone(${idx}, 'pressure', this.value)" placeholder="Pressure"></td>
-      <td><button class="btn btn-danger btn-small" ontouchstart="window.removeZone(${idx}); return false;" onclick="window.removeZone(${idx}); return false;">×</button></td>
-    </tr>
-  `).join('') || '<tr><td colspan="5" style="text-align: center; color: var(--muted); padding: 20px;">No zones added</td></tr>';
-  
-  achievedTable.innerHTML = window.achieved.map((pt, idx) => `
-    <tr>
-      <td><input type="number" step="any" value="${pt.flow || ''}" onchange="window.updateAchieved(${idx}, 'flow', this.value)" placeholder="Flow"></td>
-      <td><input type="number" step="any" value="${pt.pressure || ''}" onchange="window.updateAchieved(${idx}, 'pressure', this.value)" placeholder="Pressure"></td>
-      <td><button class="btn btn-danger btn-small" ontouchstart="window.removeAchieved(${idx}); return false;" onclick="window.removeAchieved(${idx}); return false;">×</button></td>
-    </tr>
-  `).join('') || '<tr><td colspan="3" style="text-align: center; color: var(--muted); padding: 20px;">No data points added</td></tr>';
-  
-  window.drawGraph();
-}
-
-window.drawGraph = function() {
-  const svg = document.getElementById('flowGraph');
-  
-  const validZones = window.zones.filter(z => z.flow && z.pressure).map(z => ({
-    flow: parseFloat(z.flow),
-    pressure: parseFloat(z.pressure),
-    name: z.name || 'Zone'
-  }));
-
-  const validAchieved = window.achieved.filter(a => a.flow && a.pressure).map(a => ({
-    flow: parseFloat(a.flow),
-    pressure: parseFloat(a.pressure)
-  })).sort((a, b) => a.flow - b.flow);
-
-  const allPoints = [...validZones, ...validAchieved];
-  if (allPoints.length === 0) {
-    svg.innerHTML = '<text x="500" y="250" text-anchor="middle" fill="#6b7280">Add data to see graph</text>';
-    return;
-  }
-
-  const maxFlow = Math.max(...allPoints.map(p => p.flow)) * 1.15;
-  const maxPressure = Math.max(...allPoints.map(p => p.pressure)) * 1.15;
-
-  const W = 1000, H = 500, padL = 80, padR = 60, padT = 40, padB = 60;
-  const chartW = W - padL - padR, chartH = H - padT - padB;
-
-  const x = (flow) => padL + (flow / maxFlow) * chartW;
-  const y = (pressure) => padT + chartH - (pressure / maxPressure) * chartH;
-
-  let svgContent = `
-    <rect x="0" y="0" width="${W}" height="${H}" fill="#fff"/>
-    <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + chartH}" stroke="#333" stroke-width="2"/>
-    <line x1="${padL}" y1="${padT + chartH}" x2="${padL + chartW}" y2="${padT + chartH}" stroke="#333" stroke-width="2"/>
-  `;
-
-  for (let i = 0; i <= 5; i++) {
-    const flowVal = (maxFlow / 5) * i;
-    const pressVal = (maxPressure / 5) * i;
-    const xPos = x(flowVal), yPos = y(pressVal);
-    
-    svgContent += `<line x1="${xPos}" y1="${padT}" x2="${xPos}" y2="${padT + chartH}" stroke="#eee"/>`;
-    svgContent += `<text x="${xPos}" y="${padT + chartH + 25}" text-anchor="middle" font-size="12" fill="#666">${Math.round(flowVal)}</text>`;
-    svgContent += `<line x1="${padL}" y1="${yPos}" x2="${padL + chartW}" y2="${yPos}" stroke="#eee"/>`;
-    svgContent += `<text x="${padL - 10}" y="${yPos + 5}" text-anchor="end" font-size="12" fill="#666">${Math.round(pressVal)}</text>`;
-  }
-
-  svgContent += `<text x="${padL + chartW / 2}" y="${H - 10}" text-anchor="middle" font-size="14" fill="#333" font-weight="600">Flow (L/min)</text>`;
-  svgContent += `<text x="20" y="${padT + chartH / 2}" text-anchor="middle" font-size="14" fill="#333" font-weight="600" transform="rotate(-90 20 ${padT + chartH / 2})">Pressure (kPa)</text>`;
-
-  if (validAchieved.length > 0) {
-    let pathD = `M ${x(validAchieved[0].flow)} ${y(validAchieved[0].pressure)}`;
-    for (let i = 1; i < validAchieved.length; i++) {
-      pathD += ` L ${x(validAchieved[i].flow)} ${y(validAchieved[i].pressure)}`;
+  window.addZone = function(){
+    if(window.zones.length >= 6){
+      alert('Maximum 6 zones allowed');
+      return;
     }
-    svgContent += `<path d="${pathD}" stroke="#3498db" stroke-width="3" fill="none"/>`;
-    validAchieved.forEach(pt => {
-      svgContent += `<circle cx="${x(pt.flow)}" cy="${y(pt.pressure)}" r="5" fill="#3498db" stroke="#fff" stroke-width="2"/>`;
-    });
-  }
-
-  validZones.forEach((zone, idx) => {
-    const color = window.zoneColors[idx % window.zoneColors.length];
-    svgContent += `<circle cx="${x(zone.flow)}" cy="${y(zone.pressure)}" r="7" fill="${color}" stroke="#fff" stroke-width="2"/>`;
-    svgContent += `<text x="${x(zone.flow) + 15}" y="${y(zone.pressure) + 5}" font-size="13" fill="${color}" font-weight="600">${zone.name}</text>`;
-  });
-
-  svg.innerHTML = svgContent;
-}
-
-window.calculateResult = function() {
-  const validZones = window.zones.filter(z => z.flow && z.pressure).map(z => ({
-    flow: parseFloat(z.flow),
-    pressure: parseFloat(z.pressure),
-    name: z.name || 'Zone'
-  }));
-
-  const validAchieved = window.achieved.filter(a => a.flow && a.pressure).map(a => ({
-    flow: parseFloat(a.flow),
-    pressure: parseFloat(a.pressure)
-  })).sort((a, b) => a.flow - b.flow);
-
-  if (validZones.length === 0) {
-    alert('Add at least one requirement zone');
-    return;
-  }
-  if (validAchieved.length < 2) {
-    alert('Add at least 2 achieved test points');
-    return;
-  }
-
-  const failedZones = [];
-  validZones.forEach(zone => {
-    let achievedPressure = null;
-    
-    if (zone.flow < validAchieved[0].flow) {
-      achievedPressure = validAchieved[0].pressure + (validAchieved[0].pressure - validAchieved[1].pressure) / (validAchieved[1].flow - validAchieved[0].flow) * (zone.flow - validAchieved[0].flow);
-    } else if (zone.flow > validAchieved[validAchieved.length - 1].flow) {
-      const last = validAchieved[validAchieved.length - 1];
-      const prev = validAchieved[validAchieved.length - 2];
-      achievedPressure = last.pressure + (last.pressure - prev.pressure) / (last.flow - prev.flow) * (zone.flow - last.flow);
-    } else {
-      for (let i = 0; i < validAchieved.length - 1; i++) {
-        if (validAchieved[i].flow <= zone.flow && validAchieved[i + 1].flow >= zone.flow) {
-          const ratio = (zone.flow - validAchieved[i].flow) / (validAchieved[i + 1].flow - validAchieved[i].flow);
-          achievedPressure = validAchieved[i].pressure + ratio * (validAchieved[i + 1].pressure - validAchieved[i].pressure);
-          break;
-        }
-      }
-    }
-    
-    if (achievedPressure !== null && achievedPressure < zone.pressure) {
-      failedZones.push(`${zone.name} (required ${zone.pressure} kPa, achieved ${achievedPressure.toFixed(1)} kPa)`);
-    }
-  });
-
-  const pass = failedZones.length === 0;
-  const resultDiv = document.getElementById('resultDisplay');
-  
-  resultDiv.innerHTML = `
-    <div style="margin-top: 16px; padding: 16px; background: ${pass ? '#d1fae5' : '#fee2e2'}; border-radius: 8px;">
-      <strong style="font-size: 18px;">${pass ? '✓ PASSED' : '✗ FAILED'}</strong>
-      <p style="margin: 8px 0 0 0;">
-        ${pass 
-          ? 'This flow test ACHIEVED the requirements indicated onsite.' 
-          : `This flow test did NOT achieve the requirements. Failed zones: ${failedZones.join(', ')}`
-        }
-      </p>
-    </div>
-  `;
-}
-
-window.saveTest = function() {
-  const data = {
-    site: {
-      name: document.getElementById('siteName').value,
-      address: document.getElementById('siteAddress').value,
-      dateTest: document.getElementById('dateTest').value,
-      testType: document.getElementById('testType').value,
-      servicePerson: document.getElementById('servicePerson').value,
-      licenseNumber: document.getElementById('licenseNumber').value,
-      attendanceRecord: document.getElementById('attendanceRecord').value
-    },
-    equipment: document.getElementById('equipment').value,
-    zones: window.zones,
-    achieved: window.achieved,
-    savedAt: new Date().toISOString()
+    const zoneLetter = String.fromCharCode(65 + window.zones.length);
+    window.zones.push({ name: `Zone ${zoneLetter}`, flow:'', pressure:'' });
+    window.render();
   };
 
-  try {
-    localStorage.setItem('flowTest_current', JSON.stringify(data));
-    alert('✓ Flow test saved successfully!');
-  } catch (e) {
-    alert('Error saving: ' + e.message);
-  }
-}
+  window.removeZone = function(idx){
+    window.zones.splice(idx,1);
+    window.render();
+  };
 
-window.loadTest = function() {
-  try {
-    const saved = localStorage.getItem('flowTest_current');
-    if (!saved) {
-      alert('No saved test found.');
+  window.updateZone = function(idx, field, value){
+    if(window.zones[idx]){
+      window.zones[idx][field] = value;
+      window.drawGraph();
+    }
+  };
+
+  window.addAchieved = function(){
+    window.achieved.push({ flow:'', pressure:'' });
+    window.render();
+  };
+
+  window.removeAchieved = function(idx){
+    window.achieved.splice(idx,1);
+    window.render();
+  };
+
+  window.updateAchieved = function(idx, field, value){
+    if(window.achieved[idx]){
+      window.achieved[idx][field] = value;
+      window.drawGraph();
+    }
+  };
+
+  window.render = function(){
+    const zonesTable = document.getElementById('zonesTable');
+    const achievedTable = document.getElementById('achievedTable');
+
+    zonesTable.innerHTML = window.zones.map((zone, idx) => `
+      <tr>
+        <td><span class="zone-color" style="background:${window.zoneColors[idx % window.zoneColors.length]}"></span></td>
+        <td><input type="text" value="${zone.name}" onchange="window.updateZone(${idx},'name',this.value)" placeholder="Zone ${String.fromCharCode(65+idx)}"></td>
+        <td><input type="number" step="any" value="${zone.flow}" onchange="window.updateZone(${idx},'flow',this.value)" placeholder="Flow"></td>
+        <td><input type="number" step="any" value="${zone.pressure}" onchange="window.updateZone(${idx},'pressure',this.value)" placeholder="Pressure"></td>
+        <td><button class="btn btn-danger btn-small" onclick="window.removeZone(${idx});return false;">×</button></td>
+      </tr>
+    `).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:20px;">No zones added</td></tr>';
+
+    achievedTable.innerHTML = window.achieved.map((pt, idx) => `
+      <tr>
+        <td><input type="number" step="any" value="${pt.flow}" onchange="window.updateAchieved(${idx},'flow',this.value)" placeholder="Flow"></td>
+        <td><input type="number" step="any" value="${pt.pressure}" onchange="window.updateAchieved(${idx},'pressure',this.value)" placeholder="Pressure"></td>
+        <td><button class="btn btn-danger btn-small" onclick="window.removeAchieved(${idx});return false;">×</button></td>
+      </tr>
+    `).join('') || '<tr><td colspan="3" style="text-align:center;color:var(--muted);padding:20px;">No data points added</td></tr>';
+
+    window.drawGraph();
+  };
+
+  window.drawGraph = function(){
+    const svg = document.getElementById('flowGraph');
+    const validZones = window.zones.filter(z=>z.flow && z.pressure).map(z=>({ flow:parseFloat(z.flow), pressure:parseFloat(z.pressure), name:z.name }));
+    const validAchieved = window.achieved.filter(a=>a.flow && a.pressure).map(a=>({ flow:parseFloat(a.flow), pressure:parseFloat(a.pressure) })).sort((a,b)=>a.flow-b.flow);
+    const allPoints = [...validZones, ...validAchieved];
+    if(allPoints.length === 0){
+      svg.innerHTML = `<text x="500" y="250" text-anchor="middle" fill="#6b7280">Add data to see graph</text>`;
+      return;
+    }
+    const maxFlow = Math.max(...allPoints.map(p=>p.flow)) * 1.15;
+    const maxPressure = Math.max(...allPoints.map(p=>p.pressure)) * 1.15;
+
+    const W = 1000, H = 500, padL=80, padR=60, padT=40, padB=60;
+    const chartW = W - padL - padR, chartH = H - padT - padB;
+    const x = (flow)=>padL + (flow/maxFlow)*chartW;
+    const y = (pressure)=>padT + chartH - (pressure/maxPressure)*chartH;
+
+    let svgContent = `
+      <rect x="0" y="0" width="${W}" height="${H}" fill="#fff"/>
+      <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT+chartH}" stroke="#333" stroke-width="2"/>
+      <line x1="${padL}" y1="${padT+chartH}" x2="${padL+chartW}" y2="${padT+chartH}" stroke="#333" stroke-width="2"/>
+    `;
+
+    for(let i=0;i<=5;i++){
+      const flowVal = (maxFlow/5)*i;
+      const pressVal = (maxPressure/5)*i;
+      const xPos = x(flowVal), yPos = y(pressVal);
+      svgContent += `<line x1="${xPos}" y1="${padT}" x2="${xPos}" y2="${padT+chartH}" stroke="#eee"/>`;
+      svgContent += `<text x="${xPos}" y="${padT+chartH + 25}" text-anchor="middle" font-size="12" fill="#666">${Math.round(flowVal)}</text>`;
+      svgContent += `<line x1="${padL}" y1="${yPos}" x2="${padL+chartW}" y2="${yPos}" stroke="#eee"/>`;
+      svgContent += `<text x="${padL - 10}" y="${yPos + 5}" text-anchor="end" font-size="12" fill="#666">${Math.round(pressVal)}</text>`;
+    }
+
+    svgContent += `<text x="${padL + chartW/2}" y="${H - 10}" text-anchor="middle" font-size="14" fill="#333" font-weight="600">Flow (L/min)</text>`;
+    svgContent += `<text x="20" y="${padT + chartH/2}" text-anchor="middle" font-size="14" fill="#333" font-weight="600" transform="rotate(-90 20 ${padT + chartH/2})">Pressure (kPa)</text>`;
+
+    if(validAchieved.length > 0){
+      let pathD = `M ${x(validAchieved[0].flow)} ${y(validAchieved[0].pressure)}`;
+      for(let i=1;i<validAchieved.length;i++){
+        pathD += ` L ${x(validAchieved[i].flow)} ${y(validAchieved[i].pressure)}`;
+      }
+      svgContent += `<path d="${pathD}" stroke="#3498db" stroke-width="3" fill="none"/>`;
+      validAchieved.forEach(pt=>{
+        svgContent += `<circle cx="${x(pt.flow)}" cy="${y(pt.pressure)}" r="5" fill="#3498db" stroke="#fff" stroke-width="2"/>`;
+      });
+    }
+
+    validZones.forEach((zone, idx)=>{
+      const color = window.zoneColors[idx % window.zoneColors.length];
+      svgContent += `<circle cx="${x(zone.flow)}" cy="${y(zone.pressure)}" r="7" fill="${color}" stroke="#fff" stroke-width="2"/>`;
+      svgContent += `<text x="${x(zone.flow)+15}" y="${y(zone.pressure)+5}" font-size="13" fill="${color}" font-weight="600">${zone.name}</text>`;
+    });
+
+    svg.innerHTML = svgContent;
+  };
+
+  window.calculateResult = function(){
+    const validZones = window.zones.filter(z=>z.flow && z.pressure).map(z=>({flow:parseFloat(z.flow),pressure:parseFloat(z.pressure),name:z.name}));
+    const validAchieved = window.achieved.filter(a=>a.flow && a.pressure).map(a=>({flow:parseFloat(a.flow),pressure:parseFloat(a.pressure)})).sort((a,b)=>a.flow-b.flow);
+    if(validZones.length === 0){
+      alert('Add at least one requirement zone');
+      return;
+    }
+    if(validAchieved.length < 2){
+      alert('Add at least 2 achieved test points');
       return;
     }
 
-    const data = JSON.parse(saved);
-    
-    document.getElementById('siteName').value = data.site.name || '';
-    document.getElementById('siteAddress').value = data.site.address || '';
-    document.getElementById('dateTest').value = data.site.dateTest || '';
-    document.getElementById('testType').value = data.site.testType || '';
-    document.getElementById('servicePerson').value = data.site.servicePerson || '';
-    document.getElementById('licenseNumber').value = data.site.licenseNumber || '';
-    document.getElementById('attendanceRecord').value = data.site.attendanceRecord || '';
-    document.getElementById('equipment').value = data.equipment || '';
+    const failedZones = [];
+    validZones.forEach(zone=>{
+      let achievedPressure = null;
+      if(zone.flow < validAchieved[0].flow){
+        achievedPressure = validAchieved[0].pressure + (validAchieved[0].pressure - validAchieved[1].pressure)/(validAchieved[1].flow - validAchieved[0].flow) * (zone.flow - validAchieved[0].flow);
+      } else if(zone.flow > validAchieved[validAchieved.length-1].flow){
+        const last = validAchieved[validAchieved.length-1];
+        const prev = validAchieved[validAchieved.length-2];
+        achievedPressure = last.pressure + (last.pressure - prev.pressure)/(last.flow - prev.flow) * (zone.flow - last.flow);
+      } else {
+        for(let i=0;i<validAchieved.length-1;i++){
+          if(validAchieved[i].flow <= zone.flow && validAchieved[i+1].flow >= zone.flow){
+            const ratio = (zone.flow - validAchieved[i].flow)/(validAchieved[i+1].flow - validAchieved[i].flow);
+            achievedPressure = validAchieved[i].pressure + ratio*(validAchieved[i+1].pressure - validAchieved[i].pressure);
+            break;
+          }
+        }
+      }
+      if(achievedPressure !== null && achievedPressure < zone.pressure){
+        failedZones.push(`${zone.name} (required ${zone.pressure} kPa, achieved ${achievedPressure.toFixed(1)} kPa)`);
+      }
+    });
 
-    window.zones = data.zones || [];
-    window.achieved = data.achieved || [];
-
-    window.render();
-    alert('✓ Flow test loaded successfully!');
-  } catch (e) {
-    alert('Error loading: ' + e.message);
-  }
-}
-
-window.resetAll = function() {
-  if (confirm('Reset everything? This cannot be undone.')) {
-    window.zones = [];
-    window.achieved = [];
-    document.getElementById('siteName').value = '';
-    document.getElementById('siteAddress').value = '';
-    document.getElementById('dateTest').valueAsDate = new Date();
-    document.getElementById('testType').value = '';
-    document.getElementById('servicePerson').value = '';
-    document.getElementById('licenseNumber').value = '';
-    document.getElementById('attendanceRecord').value = '';
-    document.getElementById('equipment').value = '';
-    document.getElementById('resultDisplay').innerHTML = '';
-    render();
-  }
-}
-
-function emailReport() {
-  const reportText = generateReportText();
-  const site = {
-    name: document.getElementById('siteName').value || 'Unnamed Site',
-    dateTest: document.getElementById('dateTest').value || new Date().toISOString().split('T')[0],
-    testType: document.getElementById('testType').value || 'Flow Test'
+    const pass = failedZones.length === 0;
+    const resultDiv = document.getElementById('resultDisplay');
+    resultDiv.innerHTML = `
+      <div style="margin-top:16px;padding:16px;background:${pass? '#d1fae5':'#fee2e2'};border-radius:8px;">
+        <strong style="font-size:18px;">${pass? '✓ PASSED':'✗ FAILED'}</strong>
+        <p style="margin:8px 0 0 0;">
+          ${pass? 'This flow test achieved the requirements indicated onsite.' : `This flow test did **not** achieve the requirements. Failed zones: ${failedZones.join(', ')}`}
+        </p>
+      </div>
+    `;
   };
 
-  const subject = `Flow Test Report - ${site.testType} - ${site.name} - ${site.dateTest}`;
-  
-  // Try to open email client
-  try {
-    const mailto = `mailto:admin@alliedfire.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(reportText)}`;
-    window.location.href = mailto;
-  } catch (e) {
-    // If that fails, show the report text modal
-    viewReportText();
-    alert('Email client could not be opened. Please copy the report text manually.');
-  }
-}
-
-function generateReportText() {
-  const site = {
-    name: document.getElementById('siteName').value || 'Unnamed Site',
-    address: document.getElementById('siteAddress').value || 'No address',
-    dateTest: document.getElementById('dateTest').value || new Date().toISOString().split('T')[0],
-    testType: document.getElementById('testType').value || 'Not specified',
-    servicePerson: document.getElementById('servicePerson').value || '',
-    licenseNumber: document.getElementById('licenseNumber').value || '',
-    attendanceRecord: document.getElementById('attendanceRecord').value || ''
+  window.saveTest = function(){
+    const data = {
+      site:{ name:document.getElementById('siteName').value,
+            address:document.getElementById('siteAddress').value,
+            dateTest:document.getElementById('dateTest').value,
+            testType:document.getElementById('testType').value,
+            servicePerson:document.getElementById('servicePerson').value,
+            licenseNumber:document.getElementById('licenseNumber').value,
+            attendanceRecord:document.getElementById('attendanceRecord').value },
+      equipment:document.getElementById('equipment').value,
+      zones:window.zones,
+      achieved:window.achieved,
+      savedAt:new Date().toISOString()
+    };
+    try {
+      localStorage.setItem('flowTest_current', JSON.stringify(data));
+      alert('✓ Flow test saved successfully!');
+    } catch(e){
+      alert('Error saving: '+e.message);
+    }
   };
-  const equipment = document.getElementById('equipment').value;
 
-  const validZones = window.zones.filter(z => z.flow && z.pressure);
-  const validAchieved = window.achieved.filter(a => a.flow && a.pressure);
+  window.loadTest = function(){
+    try {
+      const saved = localStorage.getItem('flowTest_current');
+      if(!saved){
+        alert('No saved test found.');
+        return;
+      }
+      const data = JSON.parse(saved);
+      document.getElementById('siteName').value = data.site.name || '';
+      document.getElementById('siteAddress').value = data.site.address || '';
+      document.getElementById('dateTest').value = data.site.dateTest || '';
+      document.getElementById('testType').value = data.site.testType || '';
+      document.getElementById('servicePerson').value = data.site.servicePerson || '';
+      document.getElementById('licenseNumber').value = data.site.licenseNumber || '';
+      document.getElementById('attendanceRecord').value = data.site.attendanceRecord || '';
+      document.getElementById('equipment').value = data.equipment || '';
+      window.zones = data.zones || [];
+      window.achieved = data.achieved || [];
+      window.render();
+      alert('✓ Flow test loaded successfully!');
+    } catch(e){
+      alert('Error loading: '+e.message);
+    }
+  };
 
-  let reportText = `ALLIED FIRE PROTECTION PTY LTD
-Fire Protection Contractors - Fire Protection Engineers
+  window.resetAll = function(){
+    if(confirm('Reset everything? This cannot be undone.')){
+      window.zones = [];
+      window.achieved = [];
+      document.getElementById('siteName').value = '';
+      document.getElementById('siteAddress').value = '';
+      document.getElementById('dateTest').valueAsDate = new Date();
+      document.getElementById('testType').value = '';
+      document.getElementById('servicePerson').value = '';
+      document.getElementById('licenseNumber').value = '';
+      document.getElementById('attendanceRecord').value = '';
+      document.getElementById('equipment').value = '';
+      document.getElementById('resultDisplay').innerHTML = '';
+      window.render();
+    }
+  };
+
+  function emailReport(){
+    const reportText = generateReportText();
+    const site = {
+      name: document.getElementById('siteName').value || 'Unnamed Site',
+      dateTest: document.getElementById('dateTest').value || new Date().toISOString().split('T')[0],
+      testType: document.getElementById('testType').value || 'Flow Test'
+    };
+    const subject = `Flow Test Report – ${site.testType} – ${site.name} – ${site.dateTest}`;
+    try {
+      const mailto = `mailto:admin@alliedfire.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(reportText)}`;
+      window.location.href = mailto;
+    } catch(e){
+      viewReportText();
+      alert('Email client could not be opened. Please copy the report text manually.');
+    }
+  }
+
+  function generateReportText(){
+    const site = {
+      name: document.getElementById('siteName').value || 'Unnamed Site',
+      address: document.getElementById('siteAddress').value || 'No address',
+      dateTest: document.getElementById('dateTest').value || new Date().toISOString().split('T')[0],
+      testType: document.getElementById('testType').value || 'Not specified',
+      servicePerson: document.getElementById('servicePerson').value || '',
+      licenseNumber: document.getElementById('licenseNumber').value || '',
+      attendanceRecord: document.getElementById('attendanceRecord').value || ''
+    };
+    const equipment = document.getElementById('equipment').value;
+    const validZones = window.zones.filter(z=>z.flow && z.pressure);
+    const validAchieved = window.achieved.filter(a=>a.flow && a.pressure);
+
+    let reportText = `ALLIED FIRE PROTECTION PTY LTD
+Fire Protection Contractors – Fire Protection Engineers
 WATER SUPPLY FLOW TEST REPORT
 
 ============================================================
@@ -678,255 +645,243 @@ S/R No: ${site.attendanceRecord}
 SYSTEM REQUIREMENTS
 ============================================================
 `;
-  
-  if (validZones.length > 0) {
-    validZones.forEach(z => {
-      reportText += `${z.name}: ${z.flow} L/min @ ${z.pressure} kPa\n`;
-    });
-  } else {
-    reportText += `No requirement zones entered\n`;
-  }
-  
-  reportText += `
+
+    if(validZones.length > 0){
+      validZones.forEach(z=>{
+        reportText += `${z.name}: ${z.flow} L/min @ ${z.pressure} kPa\n`;
+      });
+    } else {
+      reportText += `No requirement zones entered\n`;
+    }
+
+    reportText += `
+
 ============================================================
 ACHIEVED TEST RESULTS
 ============================================================
 `;
-  
-  if (validAchieved.length > 0) {
-    validAchieved.forEach(a => {
-      reportText += `${a.flow} L/min @ ${a.pressure} kPa\n`;
-    });
-  } else {
-    reportText += `No test results entered\n`;
-  }
-  
-  if (equipment) {
-    reportText += `\nEquipment Used: ${equipment}\n`;
-  }
-  
-  reportText += `
+
+    if(validAchieved.length > 0){
+      validAchieved.forEach(a=>{
+        reportText += `${a.flow} L/min @ ${a.pressure} kPa\n`;
+      });
+    } else {
+      reportText += `No test results entered\n`;
+    }
+
+    if(equipment){
+      reportText += `\nEquipment Used: ${equipment}\n`;
+    }
+
+    reportText += `
+
 ============================================================
 END OF REPORT
 Generated: ${new Date().toLocaleString()}
-============================================================`;
+============================================================
+`;
+    return reportText;
+  }
 
-  return reportText;
-}
+  window.viewReportText = function(){
+    const reportText = generateReportText();
+    document.getElementById('reportTextArea').value = reportText;
+    document.getElementById('reportModal').style.display = 'block';
+  }
 
-window.viewReportText = function() {
-  const reportText = window.generateReportText();
-  document.getElementById('reportTextArea').value = reportText;
-  document.getElementById('reportModal').style.display = 'block';
-}
+  window.closeReportModal = function(){
+    document.getElementById('reportModal').style.display = 'none';
+  }
 
-window.closeReportModal = function() {
-  document.getElementById('reportModal').style.display = 'none';
-}
-
-window.copyReport = function() {
-  const reportText = window.generateReportText();
-  
-  // Try modern clipboard API first
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(reportText)
-      .then(() => {
+  window.copyReport = function(){
+    const reportText = generateReportText();
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(reportText).then(()=>{
         alert('✓ Report copied to clipboard!');
-      })
-      .catch(() => {
-        // Fallback: show the modal instead
+      }).catch(()=>{
         viewReportText();
-        alert('Could not copy automatically. Please copy the text manually from the window that just opened.');
+        alert('Could not copy automatically. Please copy the text manually.');
       });
-  } else {
-    // Fallback for older browsers/devices
-    viewReportText();
-    alert('Please copy the text manually from the window that just opened.');
+    } else {
+      viewReportText();
+      alert('Please copy the text manually from the window that just opened.');
+    }
   }
-}
 
-function exportPNG() {
-  // Create a canvas for the report
-  const canvas = document.createElement('canvas');
-  const W = 1123, H = 1587; // A4 portrait in pixels at 96 DPI
-  canvas.width = W;
-  canvas.height = H;
-  const ctx = canvas.getContext('2d');
-  
-  // White background
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, W, H);
-  
-  const margin = 60;
-  let y = margin;
-  
-  // Header
-  ctx.fillStyle = '#003366';
-  ctx.font = 'bold 28px Arial';
-  ctx.textAlign = 'center';
-  ctx.fillText('ALLIED FIRE PROTECTION PTY LTD', W/2, y);
-  y += 30;
-  
-  ctx.font = '14px Arial';
-  ctx.fillStyle = '#6b7280';
-  ctx.fillText('Fire Protection Contractors - Fire Protection Engineers', W/2, y);
-  y += 40;
-  
-  ctx.font = 'bold 20px Arial';
-  ctx.fillStyle = '#003366';
-  ctx.fillText('WATER SUPPLY FLOW TEST REPORT', W/2, y);
-  y += 50;
-  
-  // Site Information
-  ctx.textAlign = 'left';
-  ctx.font = 'bold 16px Arial';
-  ctx.fillStyle = '#003366';
-  ctx.fillText('SITE INFORMATION', margin, y);
-  y += 30;
-  
-  ctx.font = '14px Arial';
-  ctx.fillStyle = '#111827';
-  const site = {
-    name: document.getElementById('siteName').value || 'Unnamed Site',
-    address: document.getElementById('siteAddress').value || 'No address',
-    dateTest: document.getElementById('dateTest').value || new Date().toISOString().split('T')[0],
-    testType: document.getElementById('testType').value || 'Not specified',
-    servicePerson: document.getElementById('servicePerson').value || '',
-    licenseNumber: document.getElementById('licenseNumber').value || '',
-    attendanceRecord: document.getElementById('attendanceRecord').value || ''
-  };
-  
-  ctx.fillText(`Project: ${site.name}`, margin, y); y += 25;
-  ctx.fillText(`Address: ${site.address}`, margin, y); y += 25;
-  ctx.fillText(`Date: ${site.dateTest}`, margin, y); y += 25;
-  ctx.fillText(`Test Type: ${site.testType}`, margin, y); y += 25;
-  ctx.fillText(`Service Person: ${site.servicePerson}`, margin, y); y += 25;
-  ctx.fillText(`License: ${site.licenseNumber}`, margin, y); y += 25;
-  ctx.fillText(`S/R No: ${site.attendanceRecord}`, margin, y); y += 40;
-  
-  // System Requirements
-  ctx.font = 'bold 16px Arial';
-  ctx.fillStyle = '#003366';
-  ctx.fillText('SYSTEM REQUIREMENTS', margin, y);
-  y += 30;
-  
-  ctx.font = '14px Arial';
-  ctx.fillStyle = '#111827';
-  const validZones = window.zones.filter(z => z.flow && z.pressure);
-  if (validZones.length > 0) {
-    validZones.forEach(z => {
-      ctx.fillText(`${z.name}: ${z.flow} L/min @ ${z.pressure} kPa`, margin, y);
-      y += 25;
-    });
-  } else {
+  window.exportPNG = function(){
+    const canvas = document.createElement('canvas');
+    const W = 1123, H = 1587; // A4 portrait at ~96 DPI
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d');
+
+    // White background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0,0,W,H);
+
+    const margin = 60;
+    let y = margin;
+
+    // Cover Page header
+    ctx.fillStyle = var(--primary) || '#003366';
+    ctx.font = 'bold 32px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('ALLIED FIRE PROTECTION PTY LTD', W/2, y);
+    y += 40;
+    ctx.font = '16px Arial';
     ctx.fillStyle = '#6b7280';
-    ctx.fillText('No requirement zones entered', margin, y);
-    y += 25;
-  }
-  y += 20;
-  
-  // Achieved Results
-  ctx.font = 'bold 16px Arial';
-  ctx.fillStyle = '#003366';
-  ctx.fillText('ACHIEVED TEST RESULTS', margin, y);
-  y += 30;
-  
-  ctx.font = '14px Arial';
-  ctx.fillStyle = '#111827';
-  const validAchieved = window.achieved.filter(a => a.flow && a.pressure);
-  if (validAchieved.length > 0) {
-    validAchieved.forEach(a => {
-      ctx.fillText(`${a.flow} L/min @ ${a.pressure} kPa`, margin, y);
-      y += 25;
-    });
-  } else {
-    ctx.fillStyle = '#6b7280';
-    ctx.fillText('No test results entered', margin, y);
-    y += 25;
-  }
-  y += 20;
-  
-  // Equipment
-  const equipment = document.getElementById('equipment').value;
-  if (equipment) {
+    ctx.fillText('Fire Protection Contractors – Fire Protection Engineers', W/2, y);
+    y += 80;
+
+    ctx.font = 'bold 24px Arial';
+    ctx.fillStyle = var(--primary);
+    ctx.fillText('WATER SUPPLY FLOW TEST REPORT', W/2, y);
+    y += 60;
+
+    // Move down to skip some space
+    y += 40;
+
+    // Site Information Section
+    ctx.textAlign = 'left';
+    ctx.font = 'bold 18px Arial';
+    ctx.fillStyle = var(--primary);
+    ctx.fillText('SITE INFORMATION', margin, y);
+    y += 30;
+
     ctx.font = '14px Arial';
     ctx.fillStyle = '#111827';
-    ctx.fillText(`Equipment Used: ${equipment}`, margin, y);
+    const site = {
+      name: document.getElementById('siteName').value || 'Unnamed Site',
+      address: document.getElementById('siteAddress').value || 'No address',
+      dateTest: document.getElementById('dateTest').value || new Date().toISOString().split('T')[0],
+      testType: document.getElementById('testType').value || 'Not specified',
+      servicePerson: document.getElementById('servicePerson').value || '',
+      licenseNumber: document.getElementById('licenseNumber').value || '',
+      attendanceRecord: document.getElementById('attendanceRecord').value || ''
+    };
+    ctx.fillText(`Project: ${site.name}`, margin, y); y += 22;
+    ctx.fillText(`Address: ${site.address}`, margin, y); y += 22;
+    ctx.fillText(`Date: ${site.dateTest}`, margin, y); y += 22;
+    ctx.fillText(`Test Type: ${site.testType}`, margin, y); y += 22;
+    ctx.fillText(`Service Person: ${site.servicePerson}`, margin, y); y += 22;
+    ctx.fillText(`License: ${site.licenseNumber}`, margin, y); y += 22;
+    ctx.fillText(`S/R No: ${site.attendanceRecord}`, margin, y +=22);
+
     y += 40;
-  }
-  
-  // Graph
-  const svg = document.getElementById('flowGraph');
-  if (svg && validZones.length > 0 && validAchieved.length > 0) {
-    ctx.font = 'bold 16px Arial';
-    ctx.fillStyle = '#003366';
-    ctx.fillText('WATER SUPPLY ANALYSIS GRAPH', margin, y);
+
+    // System Requirements
+    ctx.font = 'bold 18px Arial';
+    ctx.fillStyle = var(--primary);
+    ctx.fillText('SYSTEM REQUIREMENTS', margin, y);
     y += 30;
-    
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const img = new Image();
-    const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
-    const url = URL.createObjectURL(svgBlob);
-    
-    img.onload = function() {
-      const graphWidth = W - 2*margin;
-      const graphHeight = 400;
-      ctx.drawImage(img, margin, y, graphWidth, graphHeight);
-      y += graphHeight + 30;
-      
-      // Footer
+    ctx.font = '14px Arial';
+    ctx.fillStyle = '#111827';
+    const validZones = window.zones.filter(z=>z.flow && z.pressure);
+    if(validZones.length > 0){
+      validZones.forEach(z=>{
+        ctx.fillText(`${z.name}: ${z.flow} L/min @ ${z.pressure} kPa`, margin, y);
+        y += 22;
+      });
+    } else {
+      ctx.fillStyle = '#6b7280';
+      ctx.fillText('No requirement zones entered', margin, y);
+      y += 22;
+    }
+
+    y += 30;
+
+    // Achieved Results
+    ctx.font = 'bold 18px Arial';
+    ctx.fillStyle = var(--primary);
+    ctx.fillText('ACHIEVED TEST RESULTS', margin, y);
+    y += 30;
+    ctx.font = '14px Arial';
+    ctx.fillStyle = '#111827';
+    const validAchieved = window.achieved.filter(a=>a.flow && a.pressure);
+    if(validAchieved.length > 0){
+      validAchieved.forEach(a=>{
+        ctx.fillText(`${a.flow} L/min @ ${a.pressure} kPa`, margin, y);
+        y += 22;
+      });
+    } else {
+      ctx.fillStyle = '#6b7280';
+      ctx.fillText('No test results entered', margin, y);
+      y += 22;
+    }
+
+    y += 30;
+
+    // Equipment
+    const equipment = document.getElementById('equipment').value;
+    if(equipment){
+      ctx.font = '14px Arial';
+      ctx.fillStyle = '#111827';
+      ctx.fillText(`Equipment Used: ${equipment}`, margin, y);
+      y += 40;
+    }
+
+    // Graph Section
+    const svg = document.getElementById('flowGraph');
+    if(svg && validZones.length > 0 && validAchieved.length > 0){
+      ctx.font = 'bold 18px Arial';
+      ctx.fillStyle = var(--primary);
+      ctx.fillText('WATER SUPPLY ANALYSIS GRAPH', margin, y);
+      y += 30;
+
+      const svgData = new XMLSerializer().serializeToString(svg);
+      const img = new Image();
+      const svgBlob = new Blob([svgData],{type:'image/svg+xml;charset=utf-8'});
+      const url = URL.createObjectURL(svgBlob);
+
+      img.onload = function(){
+        const graphWidth = W - 2*margin;
+        const graphHeight = 400;
+        ctx.drawImage(img, margin, y, graphWidth, graphHeight);
+        y += graphHeight + 40;
+
+        // Footer
+        ctx.font = '12px Arial';
+        ctx.fillStyle = '#6b7280';
+        ctx.textAlign = 'right';
+        ctx.fillText(`© Allied Fire Protection Pty Ltd – Generated: ${new Date().toLocaleString()}`, W - margin, H - 30);
+
+        finalize();
+        URL.revokeObjectURL(url);
+      };
+      img.onerror = function(){
+        ctx.font = '12px Arial';
+        ctx.fillStyle = '#6b7280';
+        ctx.textAlign = 'right';
+        ctx.fillText(`© Allied Fire Protection Pty Ltd – Generated: ${new Date().toLocaleString()}`, W - margin, H - 30);
+        finalize();
+        URL.revokeObjectURL(url);
+      };
+      img.src = url;
+    } else {
       ctx.font = '12px Arial';
       ctx.fillStyle = '#6b7280';
       ctx.textAlign = 'right';
-      ctx.fillText(`Generated: ${new Date().toLocaleString()}`, W - margin, H - 30);
-      
-      // Download
-      window.finalizePNG(canvas, site);
-      URL.revokeObjectURL(url);
-    };
-    
-    img.onerror = function() {
-      // If graph fails to load, just finish without it
-      window.finalizePNG(canvas, site);
-      URL.revokeObjectURL(url);
-    };
-    
-    img.src = url;
-  } else {
-    // No graph, just finish
-    ctx.font = '12px Arial';
-    ctx.fillStyle = '#6b7280';
-    ctx.textAlign = 'right';
-    ctx.fillText(`Generated: ${new Date().toLocaleString()}`, W - margin, H - 30);
-    window.finalizePNG(canvas, site);
-  }
-}
+      ctx.fillText(`© Allied Fire Protection Pty Ltd – Generated: ${new Date().toLocaleString()}`, W - margin, H - 30);
+      finalize();
+    }
 
-window.finalizePNG = function(canvas, site) {
-  const filename = `Flow_Test_Report_${site.testType.replace(/\s/g, '_')}_${site.name.replace(/\s/g, '_')}_${site.dateTest}.png`;
-  
-  canvas.toBlob(function(blob) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    alert('✓ PNG report downloaded! Check your downloads folder.');
-  }, 'image/png');
-}
+    function finalize(){
+      canvas.toBlob(function(blob){
+        const filename = `Flow_Test_Report_${site.testType.replace(/\s/g,'_')}_${site.name.replace(/\s/g,'_')}_${site.dateTest}.png`;
+        const downloadURL = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadURL;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(downloadURL);
+        alert('✓ PNG report downloaded! Check your downloads folder.');
+      }, 'image/png');
+    }
+  };
 
-// Initial render
-window.render();
-
-console.log('Script loaded - functions are:', {
-  addZone: typeof window.addZone,
-  addAchieved: typeof window.addAchieved,
-  calculateResult: typeof window.calculateResult
-});
-</script>
+  window.render();
+  </script>
 </body>
 </html>
