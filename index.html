@@ -1,932 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Allied Fire - Water Supply Flow Test</title>
-<style>
-  :root {
-    --primary: #003366;
-    --primary-light: #66b3ff;
-    --success: #10b981;
-    --danger: #ef4444;
-    --bg: #f6f7f9;
-    --panel: #ffffff;
-    --border: #e5e7eb;
-    --text: #111827;
-    --muted: #6b7280;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 20px;
-    font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-    color: var(--text);
-    background: var(--bg);
-  }
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .company-header {
-    text-align: center;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 3px solid var(--primary);
-  }
-  .company-name {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--primary);
-    margin: 0;
-  }
-  .company-subtitle {
-    font-size: 14px;
-    color: var(--muted);
-    margin: 4px 0 0 0;
-  }
-  h1 {
-    text-align: center;
-    margin: 0 0 24px;
-    font-size: 24px;
-    color: var(--primary);
-  }
-  h3 {
-    font-size: 16px;
-    margin: 16px 0 8px;
-    font-weight: 600;
-  }
-  .card {
-    background: var(--panel);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 16px;
-  }
-  .form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-  .form-group {
-    display: flex;
-    flex-direction: column;
-  }
-  label {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 4px;
-    color: #374151;
-  }
-  input, select {
-    width: 100%;
-    padding: 10px 12px;
-    font-size: 16px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: #fff;
-  }
-  .btn {
-    padding: 10px 16px;
-    border: 1px solid var(--border);
-    background: #fff;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s;
-  }
-  .btn:hover {
-    background: var(--bg);
-  }
-  .btn:active {
-    transform: translateY(1px);
-  }
-  .btn-primary {
-    background: var(--primary);
-    color: #fff;
-    border-color: var(--primary);
-  }
-  .btn-primary:hover {
-    background: #002247;
-  }
-  .btn-success {
-    background: var(--success);
-    color: #fff;
-    border-color: var(--success);
-  }
-  .btn-danger {
-    background: var(--danger);
-    color: #fff;
-    border-color: var(--danger);
-  }
-  .btn-small {
-    padding: 6px 12px;
-    font-size: 13px;
-  }
-  .toolbar {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    margin-top: 16px;
-  }
-  .zones-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 12px 0;
-  }
-  .zones-table th,
-  .zones-table td {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-  .zones-table th {
-    font-weight: 600;
-    background: var(--bg);
-    font-size: 14px;
-  }
-  .zones-table input {
-    padding: 6px 8px;
-    font-size: 14px;
-  }
-  .zone-color {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    display: inline-block;
-    border: 1px solid var(--border);
-  }
-  .graph-container {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px;
-    margin: 16px 0;
-  }
-  .svg-wrap {
-    width: 100%;
-    height: 500px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 8px;
-  }
-  .two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  @media (max-width: 768px) {
-    .form-grid, .two-col {
-      grid-template-columns: 1fr;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Orifice Sizing Tools – PWA</title>
+  <meta name="theme-color" content="#0b0f14" />
+  <link id="manifestLink" rel="manifest" href="#">
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#10161d; --muted:#6b7b8d;
+      --text:#e6eef6; --accent:#4cc2ff; --ok:#3ddc97; --danger:#ff6b6b;
     }
-  }
-</style>
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      background:linear-gradient(180deg,#0b0f14 0%, #0e141b 100%);
+      color:var(--text)
+    }
+    header{padding:24px 16px; text-align:center}
+    h1{margin:0; font-size:22px}
+    .wrap{max-width:1000px; margin:0 auto; padding:0 16px 40px}
+    .card{
+      background:linear-gradient(180deg,#0f151d,#0f141b);
+      border:1px solid #1b2633; border-radius:14px; padding:16px;
+      box-shadow:0 6px 22px rgba(0,0,0,.25); margin-bottom:16px;
+    }
+    .card h2{margin:0 0 10px; font-size:18px}
+    label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px}
+    input[type="number"], select{
+      width:100%; padding:10px 12px; background:#0b1016; color:var(--text);
+      border:1px solid #1d2733; border-radius:10px; outline:none
+    }
+    input[type="number"]:focus, select:focus{
+      border-color:#2c4056; box-shadow:0 0 0 1px #2c4056 inset
+    }
+    .info-icon{
+      display:inline-block; margin-left:6px; cursor:pointer; font-weight:bold;
+      color:var(--accent); user-select:none;
+    }
+    .tooltip{
+      position:absolute; background:#111922; color:var(--text);
+      border:1px solid #2a3a4d; border-radius:10px;
+      padding:10px 12px; font-size:13px; line-height:1.4;
+      max-width:260px; z-index:50; box-shadow:0 6px 18px rgba(0,0,0,.35);
+      display:none;
+    }
+    .tooltip::after{
+      content:""; position:absolute; bottom:-6px; left:20px;
+      border-width:6px; border-style:solid;
+      border-color:#111922 transparent transparent transparent;
+    }
+    .result{
+      font-size:20px; font-weight:800; margin-top:4px;
+      opacity:1; padding-left:4px;
+    }
+    .sub{font-size:13px; color:var(--muted)}
+    .pill{display:inline-block; padding:6px 10px; border-radius:999px; font-weight:700}
+    .pill.ok{background:rgba(61,220,151,.14); color:var(--ok); border:1px solid rgba(61,220,151,.35)}
+    .pill.fail{background:rgba(255,107,107,.13); color:var(--danger); border:1px solid rgba(255,107,107,.35)}
+    .hr{height:1px; background:#17202b; margin:10px 0 14px}
+    .btn{
+      padding:10px 14px; border-radius:10px; border:1px solid #1d2733;
+      background:#0b1016; color:var(--text); cursor:pointer; font-weight:600
+    }
+    .btn:active{transform:translateY(1px)}
+    footer{opacity:.7; text-align:center; font-size:12px; margin-top:22px}
+    .hidden{display:none}
+    .row{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    @media (max-width: 640px){
+      .row{grid-template-columns:1fr}
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="company-header">
-      <div style="position: relative;">
-        <span style="position: absolute; top: -10px; left: 0; font-size: 11px; color: var(--muted); font-weight: normal;">v1.62</span>
-        <h1 class="company-name">🔥 ALLIED FIRE PROTECTION PTY LTD</h1>
-      </div>
-      <p class="company-subtitle">Fire Protection Contractors - Fire Protection Engineers</p>
-    </div>
+  <header>
+    <h1>Orifice Sizing Tools – PWA</h1>
+    <div class="sub">Calculate orifice diameter and K‑factor from required flow and pressure</div>
+  </header>
 
-    <h1>Water Supply Flow Test</h1>
+  <div class="wrap">
 
-    <!-- Site Information -->
-    <div class="card">
-      <h3>Site Information</h3>
-      <div class="form-grid">
-        <div class="form-group">
-          <label for="siteName">Site Name / Project</label>
-          <input type="text" id="siteName" placeholder="e.g., Elite Protection HQ">
-        </div>
-        <div class="form-group">
-          <label for="siteAddress">Site Address</label>
-          <input type="text" id="siteAddress" placeholder="Street, Suburb, State">
-        </div>
-        <div class="form-group">
-          <label for="dateTest">Date of Test</label>
-          <input type="date" id="dateTest">
-        </div>
-        <div class="form-group">
-          <label for="testType">Type of Flow Test</label>
-          <select id="testType">
-            <option value="">Select test type...</option>
-            <option value="Towns Main">Towns Main</option>
-            <option value="Diesel Pump 1">Diesel Pump 1</option>
-            <option value="Diesel Pump 2">Diesel Pump 2</option>
-            <option value="Electric Pump 1">Electric Pump 1</option>
-            <option value="Electric Pump 2">Electric Pump 2</option>
-            <option value="Jockey Pump">Jockey Pump</option>
-            <option value="Hydrant System">Hydrant System</option>
-            <option value="Combined System">Combined System</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="servicePerson">Service Person</label>
-          <input type="text" id="servicePerson" placeholder="Your name">
-        </div>
-        <div class="form-group">
-          <label for="licenseNumber">License Number</label>
-          <input type="text" id="licenseNumber" placeholder="License #">
-        </div>
-        <div class="form-group">
-          <label for="attendanceRecord">S/R No. / Attendance Record</label>
-          <input type="text" id="attendanceRecord" placeholder="S/R No.">
-        </div>
-      </div>
-    </div>
-
-    <!-- Flow Test -->
-    <div class="card">
-      <h3>Flow Test - Water Supply Analysis</h3>
-      
-      <div class="two-col">
-        <div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <strong>System Requirements (Zones)</strong>
-            <button class="btn btn-small" id="addZoneBtn" ontouchstart="addZone()" onclick="addZone()">+ Add Zone</button>
+    <!-- Orifice Sizing -->
+    <section class="card">
+      <h2>Orifice Sizing</h2>
+      <div>
+        <div class="row">
+          <div>
+            <label>Required flow</label>
+            <input id="s_q" type="number" inputmode="decimal" value="250" min="0" step="0.01">
           </div>
-          <table class="zones-table">
-            <thead>
-              <tr>
-                <th style="width: 30px;"></th>
-                <th>Zone Name</th>
-                <th>Flow (L/min)</th>
-                <th>Pressure (kPa)</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="zonesTable"></tbody>
-          </table>
-        </div>
-
-        <div>
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <strong>Achieved Test Results</strong>
-            <button class="btn btn-small" id="addAchievedBtn" ontouchstart="addAchieved()" onclick="addAchieved()">+ Add Point</button>
+          <div>
+            <label>Flow units</label>
+            <select id="s_qu">
+              <option value="Lmin" selected>L/min</option>
+              <option value="Ls">L/s</option>
+              <option value="gpm">gpm</option>
+            </select>
           </div>
-          <table class="zones-table">
-            <thead>
-              <tr>
-                <th>Flow (L/min)</th>
-                <th>Pressure (kPa)</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="achievedTable"></tbody>
-          </table>
+        </div>
+
+        <div class="row" style="margin-top:10px">
+          <div>
+            <label>Required residual pressure</label>
+            <input id="s_p" type="number" inputmode="decimal" value="100" min="0" step="0.01">
+          </div>
+          <div>
+            <label>Pressure units</label>
+            <select id="s_pu">
+              <option value="kPa" selected>kPa</option>
+              <option value="psi">psi</option>
+            </select>
+          </div>
+        </div>
+
+        <label style="margin-top:10px">Discharge coefficient, Cd (0.62 sharp-edged)
+          <span class="info-icon" id="s_cdInfo">ℹ️</span>
+        </label>
+        <div id="s_tooltipCd" class="tooltip">
+          <strong>Typical Cd values:</strong><br>
+          • 0.62 → Sharp-edged orifice<br>
+          • 0.70–0.80 → Slightly rounded inlet<br>
+          • 0.90–0.98 → Well-rounded or nozzle type
+        </div>
+        <input id="s_cd" type="number" inputmode="decimal" value="0.62" min="0" max="2" step="0.01">
+
+        <div class="hr"></div>
+        <label>Required orifice diameter</label>
+        <div class="result" id="s_d_mm">—</div>
+        <div class="result" id="s_d_in">—</div>
+
+        <div class="hr"></div>
+        <div class="sub" id="s_formula">Formula: —</div>
+
+        <div class="hr"></div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button id="s_copyBtn" class="btn">Copy sizing summary</button>
+          <span id="s_copyHint" class="sub" aria-live="polite"></span>
         </div>
       </div>
+    </section>
 
-      <div class="form-group" style="margin-top: 16px;">
-        <label for="equipment">Equipment Used</label>
-        <input type="text" id="equipment" list="equipmentList" placeholder="e.g., Vernon Morris Flow Meter">
-        <datalist id="equipmentList">
-          <option value="Vernon Morris Flow Meter">
-          <option value="Pitot Tube and Manometer">
-          <option value="Flow Meter">
-          <option value="Pressure Gauge">
-          <option value="Hydrant Flow Test Kit">
-          <option value="Digital Flow Meter">
-          <option value="Analog Flow Meter">
-          <option value="Test Orifice Plate">
-          <option value="Ambit Flow Meter">
-          <option value="Orifice Nozzles">
-          <option value="Ultrasonic Flow Meter">
-        </datalist>
-      </div>
+    <!-- K‑Factor Calculator -->
+    <section class="card">
+      <h2>K‑Factor Calculator</h2>
+      <div>
+        <div class="row">
+          <div>
+            <label>Required flow</label>
+            <input id="k_q" type="number" inputmode="decimal" value="250" min="0" step="0.01">
+          </div>
+          <div>
+            <label>Flow units</label>
+            <select id="k_qu">
+              <option value="Lmin" selected>L/min</option>
+              <option value="Ls">L/s</option>
+              <option value="gpm">gpm</option>
+            </select>
+          </div>
+        </div>
 
-      <div class="graph-container">
-        <strong>Water Supply Analysis Graph</strong>
-        <div class="svg-wrap">
-          <svg id="flowGraph" viewBox="0 0 1000 500" width="100%" height="100%"></svg>
+        <div class="row" style="margin-top:10px">
+          <div>
+            <label>Residual pressure</label>
+            <input id="k_p" type="number" inputmode="decimal" value="100" min="0" step="0.01">
+          </div>
+          <div>
+            <label>Pressure units</label>
+            <select id="k_pu">
+              <option value="kPa" selected>kPa</option>
+              <option value="psi">psi</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+        <label>Calculated K‑factor</label>
+        <div class="result" id="k_metric">—</div>
+        <div class="result" id="k_imperial">—</div>
+
+        <div class="hr"></div>
+        <div class="sub" id="k_formula">Formula: —</div>
+
+        <div class="hr"></div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button id="k_copyBtn" class="btn">Copy K‑factor</button>
+          <span id="k_copyHint" class="sub" aria-live="polite"></span>
         </div>
       </div>
+    </section>
 
-      <div style="margin-top: 16px;">
-        <button class="btn btn-primary" id="calculateBtn" ontouchstart="calculateResult()" onclick="calculateResult()">Calculate Pass/Fail</button>
-      </div>
-
-      <div id="resultDisplay"></div>
-    </div>
-
-    <!-- Toolbar -->
-    <div class="toolbar">
-      <button class="btn" id="saveBtn" ontouchstart="saveTest()" onclick="saveTest()">💾 Save Test</button>
-      <button class="btn" id="loadBtn" ontouchstart="loadTest()" onclick="loadTest()">📂 Load Test</button>
-      <button class="btn" id="resetBtn" ontouchstart="resetAll()" onclick="resetAll()">🔄 Reset All</button>
-      <button class="btn" id="exportPngBtn" ontouchstart="exportPNG()" onclick="exportPNG()">🖼️ Export PNG</button>
-      <button class="btn" id="viewTextBtn" ontouchstart="viewReportText()" onclick="viewReportText()">📄 View Report Text</button>
-      <button class="btn" id="copyBtn" ontouchstart="copyReport()" onclick="copyReport()">📋 Copy Report</button>
-      <button class="btn btn-success" id="emailBtn" ontouchstart="emailReport()" onclick="emailReport()">📧 Email Report</button>
-    </div>
-
-    <!-- Report Text Modal -->
-    <div id="reportModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; padding: 20px;">
-      <div style="background: white; max-width: 800px; margin: 40px auto; padding: 20px; border-radius: 12px; max-height: 80vh; overflow-y: auto;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <h3 style="margin: 0;">Report Text</h3>
-          <button class="btn" id="closeModalBtn" ontouchstart="closeReportModal()" onclick="closeReportModal()">✕ Close</button>
-        </div>
-        <p style="color: var(--muted); font-size: 14px; margin-bottom: 12px;">
-          Tap and hold the text below, select all, then copy to share this report.
-        </p>
-        <textarea id="reportTextArea" readonly style="width: 100%; min-height: 400px; font-family: monospace; font-size: 13px; padding: 12px; border: 1px solid var(--border); border-radius: 8px;"></textarea>
-      </div>
-    </div>
+    <footer>Works offline after first load.</footer>
   </div>
 
 <script>
-// Make everything explicitly global for iPhone
-window.zoneColors = ['#e74c3c', '#f39c12', '#3498db', '#2ecc71', '#9b59b6', '#1abc9c'];
-window.zones = [];
-window.achieved = [];
+  const $ = sel => document.querySelector(sel);
+  const fmt = (v, d=2) => (isFinite(v)? Number(v).toFixed(d) : '—');
 
-// Set today's date
-document.getElementById('dateTest').valueAsDate = new Date();
+  // --- constants base (for d in mm, P in kPa) ---
+  const C_BASE = {
+    Lmin: 0.0666432,
+    Ls:   0.00111072,
+    gpm:  0.017605270919714557
+  };
+  const SQRT_KPA_PER_PSI = Math.sqrt(6.894757);
+  const MM_PER_INCH = 25.4;
 
-window.addZone = function() {
-  console.log('addZone called');
-  if (window.zones.length >= 6) {
-    alert('Maximum 6 zones allowed');
-    return;
-  }
-  const zoneLetter = String.fromCharCode(65 + window.zones.length);
-  window.zones.push({ name: `Zone ${zoneLetter}`, flow: '', pressure: '' });
-  window.render();
-}
-
-window.removeZone = function(idx) {
-  console.log('removeZone called', idx);
-  window.zones.splice(idx, 1);
-  window.render();
-}
-
-window.updateZone = function(idx, field, value) {
-  if (window.zones[idx]) {
-    window.zones[idx][field] = value;
-    window.drawGraph();
-  }
-}
-
-window.addAchieved = function() {
-  console.log('addAchieved called');
-  window.achieved.push({ flow: '', pressure: '' });
-  window.render();
-}
-
-window.removeAchieved = function(idx) {
-  console.log('removeAchieved called', idx);
-  window.achieved.splice(idx, 1);
-  window.render();
-}
-
-window.updateAchieved = function(idx, field, value) {
-  if (window.achieved[idx]) {
-    window.achieved[idx][field] = value;
-    window.drawGraph();
-  }
-}
-
-window.render = function() {
-  const zonesTable = document.getElementById('zonesTable');
-  const achievedTable = document.getElementById('achievedTable');
-  
-  zonesTable.innerHTML = window.zones.map((zone, idx) => `
-    <tr>
-      <td><span class="zone-color" style="background: ${window.zoneColors[idx % window.zoneColors.length]}"></span></td>
-      <td><input type="text" value="${zone.name || ''}" onchange="window.updateZone(${idx}, 'name', this.value)" placeholder="Zone ${String.fromCharCode(65 + idx)}"></td>
-      <td><input type="number" step="any" value="${zone.flow || ''}" onchange="window.updateZone(${idx}, 'flow', this.value)" placeholder="Flow"></td>
-      <td><input type="number" step="any" value="${zone.pressure || ''}" onchange="window.updateZone(${idx}, 'pressure', this.value)" placeholder="Pressure"></td>
-      <td><button class="btn btn-danger btn-small" ontouchstart="window.removeZone(${idx}); return false;" onclick="window.removeZone(${idx}); return false;">×</button></td>
-    </tr>
-  `).join('') || '<tr><td colspan="5" style="text-align: center; color: var(--muted); padding: 20px;">No zones added</td></tr>';
-  
-  achievedTable.innerHTML = window.achieved.map((pt, idx) => `
-    <tr>
-      <td><input type="number" step="any" value="${pt.flow || ''}" onchange="window.updateAchieved(${idx}, 'flow', this.value)" placeholder="Flow"></td>
-      <td><input type="number" step="any" value="${pt.pressure || ''}" onchange="window.updateAchieved(${idx}, 'pressure', this.value)" placeholder="Pressure"></td>
-      <td><button class="btn btn-danger btn-small" ontouchstart="window.removeAchieved(${idx}); return false;" onclick="window.removeAchieved(${idx}); return false;">×</button></td>
-    </tr>
-  `).join('') || '<tr><td colspan="3" style="text-align: center; color: var(--muted); padding: 20px;">No data points added</td></tr>';
-  
-  window.drawGraph();
-}
-
-window.drawGraph = function() {
-  const svg = document.getElementById('flowGraph');
-  
-  const validZones = window.zones.filter(z => z.flow && z.pressure).map(z => ({
-    flow: parseFloat(z.flow),
-    pressure: parseFloat(z.pressure),
-    name: z.name || 'Zone'
-  }));
-
-  const validAchieved = window.achieved.filter(a => a.flow && a.pressure).map(a => ({
-    flow: parseFloat(a.flow),
-    pressure: parseFloat(a.pressure)
-  })).sort((a, b) => a.flow - b.flow);
-
-  const allPoints = [...validZones, ...validAchieved];
-  if (allPoints.length === 0) {
-    svg.innerHTML = '<text x="500" y="250" text-anchor="middle" fill="#6b7280">Add data to see graph</text>';
-    return;
+  function toKPa(val, unit){
+    val = Number(val)||0;
+    if(unit==='kPa') return val;
+    if(unit==='psi') return val*6.894757;
+    return val;
   }
 
-  const maxFlow = Math.max(...allPoints.map(p => p.flow)) * 1.15;
-  const maxPressure = Math.max(...allPoints.map(p => p.pressure)) * 1.15;
-
-  const W = 1000, H = 500, padL = 80, padR = 60, padT = 40, padB = 60;
-  const chartW = W - padL - padR, chartH = H - padT - padB;
-
-  const x = (flow) => padL + (flow / maxFlow) * chartW;
-  const y = (pressure) => padT + chartH - (pressure / maxPressure) * chartH;
-
-  let svgContent = `
-    <rect x="0" y="0" width="${W}" height="${H}" fill="#fff"/>
-    <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + chartH}" stroke="#333" stroke-width="2"/>
-    <line x1="${padL}" y1="${padT + chartH}" x2="${padL + chartW}" y2="${padT + chartH}" stroke="#333" stroke-width="2"/>
-  `;
-
-  for (let i = 0; i <= 5; i++) {
-    const flowVal = (maxFlow / 5) * i;
-    const pressVal = (maxPressure / 5) * i;
-    const xPos = x(flowVal), yPos = y(pressVal);
-    
-    svgContent += `<line x1="${xPos}" y1="${padT}" x2="${xPos}" y2="${padT + chartH}" stroke="#eee"/>`;
-    svgContent += `<text x="${xPos}" y="${padT + chartH + 25}" text-anchor="middle" font-size="12" fill="#666">${Math.round(flowVal)}</text>`;
-    svgContent += `<line x1="${padL}" y1="${yPos}" x2="${padL + chartW}" y2="${yPos}" stroke="#eee"/>`;
-    svgContent += `<text x="${padL - 10}" y="${yPos + 5}" text-anchor="end" font-size="12" fill="#666">${Math.round(pressVal)}</text>`;
+  // ---------- ORIFICE SIZING (flow+pressure → diameter) ----------
+  function sizingFormulaText(Qunit, Punit){
+    const qU = (Qunit==='Ls'?'L/s':(Qunit==='gpm'?'gpm':'L/min'));
+    return `Formula: d = √( Q<sub>${qU}</sub> / (Cd × C × √P<sub>${Punit}</sub>) )`;
   }
+  function computeSizingC(flowUnit /* Lmin|Ls|gpm */, pressureUnit /* kPa|psi */){
+    let C = C_BASE[flowUnit]; // base assumes d in mm and P in kPa
+    if(pressureUnit==='psi'){ C *= SQRT_KPA_PER_PSI; } // √psi
+    return C; // [flowUnit] per (mm^2 * √[pressureUnit])
+  }
+  function calcSizing(){
+    const Q = Number($('#s_q').value)||0;
+    const Qu = $('#s_qu').value; // Lmin|Ls|gpm
+    const Praw = Number($('#s_p').value)||0;
+    const Pu = $('#s_pu').value; // kPa|psi
+    const Cd = Number($('#s_cd').value)||0;
 
-  svgContent += `<text x="${padL + chartW / 2}" y="${H - 10}" text-anchor="middle" font-size="14" fill="#333" font-weight="600">Flow (L/min)</text>`;
-  svgContent += `<text x="20" y="${padT + chartH / 2}" text-anchor="middle" font-size="14" fill="#333" font-weight="600" transform="rotate(-90 20 ${padT + chartH / 2})">Pressure (kPa)</text>`;
+    const PkPa = toKPa(Praw, Pu);
+    const C = computeSizingC(Qu, Pu);
 
-  if (validAchieved.length > 0) {
-    let pathD = `M ${x(validAchieved[0].flow)} ${y(validAchieved[0].pressure)}`;
-    for (let i = 1; i < validAchieved.length; i++) {
-      pathD += ` L ${x(validAchieved[i].flow)} ${y(validAchieved[i].pressure)}`;
+    let dmm = NaN;
+    if (Cd > 0 && PkPa >= 0 && C > 0) {
+      const denom = Cd * C * Math.sqrt(PkPa);
+      if (denom > 0) dmm = Math.sqrt(Q / denom);
     }
-    svgContent += `<path d="${pathD}" stroke="#3498db" stroke-width="3" fill="none"/>`;
-    validAchieved.forEach(pt => {
-      svgContent += `<circle cx="${x(pt.flow)}" cy="${y(pt.pressure)}" r="5" fill="#3498db" stroke="#fff" stroke-width="2"/>`;
+    const din = dmm / MM_PER_INCH;
+
+    $('#s_d_mm').textContent = Number.isFinite(dmm) ? `${fmt(dmm,2)} mm` : '—';
+    $('#s_d_in').textContent = Number.isFinite(din) ? `${fmt(din,3)} inch` : '—';
+    $('#s_formula').innerHTML = sizingFormulaText(Qu, Pu);
+
+    window.lastSize = { Q, Qu, Praw, Pu, Cd, dmm, din };
+  }
+
+  // ---------- K‑FACTOR (flow+pressure → K) ----------
+  function kFormulaText(){
+    return 'Formula: K = Q / √P  (reported in Metric: L/min·√bar⁻¹ and Imperial: gpm·√psi⁻¹)';
+  }
+  function calcKFactor(){
+    const Qraw = Number($('#k_q').value)||0;
+    const Qu = $('#k_qu').value; // Lmin|Ls|gpm
+    const Praw = Number($('#k_p').value)||0;
+    const Pu = $('#k_pu').value; // kPa|psi
+
+    // Normalize flows
+    const Q_lpm = (Qu==='Ls') ? Qraw*60 : (Qu==='gpm' ? Qraw*3.785411784 : Qraw);
+    const Q_gpm = (Qu==='Ls') ? Qraw*15.850323141489 : (Qu==='Lmin' ? Qraw/3.785411784 : Qraw);
+
+    // Normalize pressure
+    const P_kPa = toKPa(Praw, Pu);
+    const P_bar = P_kPa / 100;
+    const P_psi = (Pu==='psi') ? Praw : P_kPa/6.894757;
+
+    const K_metric = (P_bar>0) ? (Q_lpm / Math.sqrt(P_bar)) : NaN;       // L/min per √bar
+    const K_imper  = (P_psi>0) ? (Q_gpm / Math.sqrt(P_psi)) : NaN;        // gpm per √psi
+
+    $('#k_metric').textContent  = Number.isFinite(K_metric) ? `${fmt(K_metric,2)} (L/min per √bar)` : '—';
+    $('#k_imperial').textContent= Number.isFinite(K_imper)  ? `${fmt(K_imper,2)} (gpm per √psi)`   : '—';
+    $('#k_formula').textContent = kFormulaText();
+
+    window.lastK = { Qraw, Qu, Praw, Pu, K_metric, K_imper };
+  }
+
+  // ---- Copy helpers ----
+  const s_copyBtn = $('#s_copyBtn');
+  const s_copyHint = $('#s_copyHint');
+  const k_copyBtn = $('#k_copyBtn');
+  const k_copyHint = $('#k_copyHint');
+  const unitLabelFlow = out => out==='Ls'?'L/s':(out==='gpm'?'gpm':'L/min');
+
+  function buildSizingSummary(){
+    if(!window.lastSize) return '';
+    const qU = unitLabelFlow(window.lastSize.Qu);
+    return `Sizing → Required flow ${fmt(window.lastSize.Q, (window.lastSize.Qu==='Ls'?3:2))} ${qU} at ${fmt(window.lastSize.Praw,2)} ${window.lastSize.Pu} ` +
+           `with Cd ${fmt(window.lastSize.Cd,2)} → Orifice ≈ ${fmt(window.lastSize.dmm,2)} mm (${fmt(window.lastSize.din,3)} inch)`;
+  }
+  function buildKSummary(){
+    if(!window.lastK) return '';
+    const qU = unitLabelFlow(window.lastK.Qu);
+    return `K‑Factor → Flow ${fmt(window.lastK.Qraw, (window.lastK.Qu==='Ls'?3:2))} ${qU} at ${fmt(window.lastK.Praw,2)} ${window.lastK.Pu} ` +
+           `→ K ≈ ${fmt(window.lastK.K_metric,2)} (L/min·√bar⁻¹), ${fmt(window.lastK.K_imper,2)} (gpm·√psi⁻¹)`;
+  }
+
+  async function copyText(el, txt, okMsg='Copied'){
+    try{
+      await navigator.clipboard.writeText(txt);
+      el.textContent = okMsg;
+      setTimeout(()=>el.textContent='', 1500);
+    }catch{
+      el.textContent = 'Copy failed';
+      setTimeout(()=>el.textContent='', 1500);
+    }
+  }
+  s_copyBtn.addEventListener('click', ()=> copyText(s_copyHint, buildSizingSummary(), 'Copied sizing'));
+  k_copyBtn.addEventListener('click', ()=> copyText(k_copyHint, buildKSummary(), 'Copied K‑factor'));
+
+  // Tooltips
+  function wireTooltip(infoId, tipId){
+    const info = $(infoId);
+    const tip = $(tipId);
+    info.addEventListener('click', ()=>{
+      const rect = info.getBoundingClientRect();
+      tip.style.left = rect.left + window.scrollX + 'px';
+      tip.style.top = rect.bottom + window.scrollY + 6 + 'px';
+      tip.style.display = tip.style.display === 'block' ? 'none' : 'block';
     });
-  }
-
-  validZones.forEach((zone, idx) => {
-    const color = window.zoneColors[idx % window.zoneColors.length];
-    svgContent += `<circle cx="${x(zone.flow)}" cy="${y(zone.pressure)}" r="7" fill="${color}" stroke="#fff" stroke-width="2"/>`;
-    svgContent += `<text x="${x(zone.flow) + 15}" y="${y(zone.pressure) + 5}" font-size="13" fill="${color}" font-weight="600">${zone.name}</text>`;
-  });
-
-  svg.innerHTML = svgContent;
-}
-
-window.calculateResult = function() {
-  const validZones = window.zones.filter(z => z.flow && z.pressure).map(z => ({
-    flow: parseFloat(z.flow),
-    pressure: parseFloat(z.pressure),
-    name: z.name || 'Zone'
-  }));
-
-  const validAchieved = window.achieved.filter(a => a.flow && a.pressure).map(a => ({
-    flow: parseFloat(a.flow),
-    pressure: parseFloat(a.pressure)
-  })).sort((a, b) => a.flow - b.flow);
-
-  if (validZones.length === 0) {
-    alert('Add at least one requirement zone');
-    return;
-  }
-  if (validAchieved.length < 2) {
-    alert('Add at least 2 achieved test points');
-    return;
-  }
-
-  const failedZones = [];
-  validZones.forEach(zone => {
-    let achievedPressure = null;
-    
-    if (zone.flow < validAchieved[0].flow) {
-      achievedPressure = validAchieved[0].pressure + (validAchieved[0].pressure - validAchieved[1].pressure) / (validAchieved[1].flow - validAchieved[0].flow) * (zone.flow - validAchieved[0].flow);
-    } else if (zone.flow > validAchieved[validAchieved.length - 1].flow) {
-      const last = validAchieved[validAchieved.length - 1];
-      const prev = validAchieved[validAchieved.length - 2];
-      achievedPressure = last.pressure + (last.pressure - prev.pressure) / (last.flow - prev.flow) * (zone.flow - last.flow);
-    } else {
-      for (let i = 0; i < validAchieved.length - 1; i++) {
-        if (validAchieved[i].flow <= zone.flow && validAchieved[i + 1].flow >= zone.flow) {
-          const ratio = (zone.flow - validAchieved[i].flow) / (validAchieved[i + 1].flow - validAchieved[i].flow);
-          achievedPressure = validAchieved[i].pressure + ratio * (validAchieved[i + 1].pressure - validAchieved[i].pressure);
-          break;
-        }
+    document.addEventListener('click', e=>{
+      if(!tip.contains(e.target) && e.target !== info){
+        tip.style.display='none';
       }
-    }
-    
-    if (achievedPressure !== null && achievedPressure < zone.pressure) {
-      failedZones.push(`${zone.name} (required ${zone.pressure} kPa, achieved ${achievedPressure.toFixed(1)} kPa)`);
-    }
-  });
-
-  const pass = failedZones.length === 0;
-  const resultDiv = document.getElementById('resultDisplay');
-  
-  resultDiv.innerHTML = `
-    <div style="margin-top: 16px; padding: 16px; background: ${pass ? '#d1fae5' : '#fee2e2'}; border-radius: 8px;">
-      <strong style="font-size: 18px;">${pass ? '✓ PASSED' : '✗ FAILED'}</strong>
-      <p style="margin: 8px 0 0 0;">
-        ${pass 
-          ? 'This flow test ACHIEVED the requirements indicated onsite.' 
-          : `This flow test did NOT achieve the requirements. Failed zones: ${failedZones.join(', ')}`
-        }
-      </p>
-    </div>
-  `;
-}
-
-window.saveTest = function() {
-  const data = {
-    site: {
-      name: document.getElementById('siteName').value,
-      address: document.getElementById('siteAddress').value,
-      dateTest: document.getElementById('dateTest').value,
-      testType: document.getElementById('testType').value,
-      servicePerson: document.getElementById('servicePerson').value,
-      licenseNumber: document.getElementById('licenseNumber').value,
-      attendanceRecord: document.getElementById('attendanceRecord').value
-    },
-    equipment: document.getElementById('equipment').value,
-    zones: window.zones,
-    achieved: window.achieved,
-    savedAt: new Date().toISOString()
-  };
-
-  try {
-    localStorage.setItem('flowTest_current', JSON.stringify(data));
-    alert('✓ Flow test saved successfully!');
-  } catch (e) {
-    alert('Error saving: ' + e.message);
-  }
-}
-
-window.loadTest = function() {
-  try {
-    const saved = localStorage.getItem('flowTest_current');
-    if (!saved) {
-      alert('No saved test found.');
-      return;
-    }
-
-    const data = JSON.parse(saved);
-    
-    document.getElementById('siteName').value = data.site.name || '';
-    document.getElementById('siteAddress').value = data.site.address || '';
-    document.getElementById('dateTest').value = data.site.dateTest || '';
-    document.getElementById('testType').value = data.site.testType || '';
-    document.getElementById('servicePerson').value = data.site.servicePerson || '';
-    document.getElementById('licenseNumber').value = data.site.licenseNumber || '';
-    document.getElementById('attendanceRecord').value = data.site.attendanceRecord || '';
-    document.getElementById('equipment').value = data.equipment || '';
-
-    window.zones = data.zones || [];
-    window.achieved = data.achieved || [];
-
-    window.render();
-    alert('✓ Flow test loaded successfully!');
-  } catch (e) {
-    alert('Error loading: ' + e.message);
-  }
-}
-
-window.resetAll = function() {
-  if (confirm('Reset everything? This cannot be undone.')) {
-    window.zones = [];
-    window.achieved = [];
-    document.getElementById('siteName').value = '';
-    document.getElementById('siteAddress').value = '';
-    document.getElementById('dateTest').valueAsDate = new Date();
-    document.getElementById('testType').value = '';
-    document.getElementById('servicePerson').value = '';
-    document.getElementById('licenseNumber').value = '';
-    document.getElementById('attendanceRecord').value = '';
-    document.getElementById('equipment').value = '';
-    document.getElementById('resultDisplay').innerHTML = '';
-    render();
-  }
-}
-
-function emailReport() {
-  const reportText = generateReportText();
-  const site = {
-    name: document.getElementById('siteName').value || 'Unnamed Site',
-    dateTest: document.getElementById('dateTest').value || new Date().toISOString().split('T')[0],
-    testType: document.getElementById('testType').value || 'Flow Test'
-  };
-
-  const subject = `Flow Test Report - ${site.testType} - ${site.name} - ${site.dateTest}`;
-  
-  // Try to open email client
-  try {
-    const mailto = `mailto:admin@alliedfire.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(reportText)}`;
-    window.location.href = mailto;
-  } catch (e) {
-    // If that fails, show the report text modal
-    viewReportText();
-    alert('Email client could not be opened. Please copy the report text manually.');
-  }
-}
-
-function generateReportText() {
-  const site = {
-    name: document.getElementById('siteName').value || 'Unnamed Site',
-    address: document.getElementById('siteAddress').value || 'No address',
-    dateTest: document.getElementById('dateTest').value || new Date().toISOString().split('T')[0],
-    testType: document.getElementById('testType').value || 'Not specified',
-    servicePerson: document.getElementById('servicePerson').value || '',
-    licenseNumber: document.getElementById('licenseNumber').value || '',
-    attendanceRecord: document.getElementById('attendanceRecord').value || ''
-  };
-  const equipment = document.getElementById('equipment').value;
-
-  const validZones = window.zones.filter(z => z.flow && z.pressure);
-  const validAchieved = window.achieved.filter(a => a.flow && a.pressure);
-
-  let reportText = `ALLIED FIRE PROTECTION PTY LTD
-Fire Protection Contractors - Fire Protection Engineers
-WATER SUPPLY FLOW TEST REPORT
-
-============================================================
-SITE INFORMATION
-============================================================
-Project: ${site.name}
-Address: ${site.address}
-Date: ${site.dateTest}
-Test Type: ${site.testType}
-Service Person: ${site.servicePerson}
-License: ${site.licenseNumber}
-S/R No: ${site.attendanceRecord}
-
-============================================================
-SYSTEM REQUIREMENTS
-============================================================
-`;
-  
-  if (validZones.length > 0) {
-    validZones.forEach(z => {
-      reportText += `${z.name}: ${z.flow} L/min @ ${z.pressure} kPa\n`;
     });
-  } else {
-    reportText += `No requirement zones entered\n`;
   }
-  
-  reportText += `
-============================================================
-ACHIEVED TEST RESULTS
-============================================================
-`;
-  
-  if (validAchieved.length > 0) {
-    validAchieved.forEach(a => {
-      reportText += `${a.flow} L/min @ ${a.pressure} kPa\n`;
-    });
-  } else {
-    reportText += `No test results entered\n`;
-  }
-  
-  if (equipment) {
-    reportText += `\nEquipment Used: ${equipment}\n`;
-  }
-  
-  reportText += `
-============================================================
-END OF REPORT
-Generated: ${new Date().toLocaleString()}
-============================================================`;
+  wireTooltip('#s_cdInfo', '#s_tooltipCd');
 
-  return reportText;
-}
+  // initial render
+  calcSizing();
+  calcKFactor();
 
-window.viewReportText = function() {
-  const reportText = window.generateReportText();
-  document.getElementById('reportTextArea').value = reportText;
-  document.getElementById('reportModal').style.display = 'block';
-}
-
-window.closeReportModal = function() {
-  document.getElementById('reportModal').style.display = 'none';
-}
-
-window.copyReport = function() {
-  const reportText = window.generateReportText();
-  
-  // Try modern clipboard API first
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(reportText)
-      .then(() => {
-        alert('✓ Report copied to clipboard!');
-      })
-      .catch(() => {
-        // Fallback: show the modal instead
-        viewReportText();
-        alert('Could not copy automatically. Please copy the text manually from the window that just opened.');
-      });
-  } else {
-    // Fallback for older browsers/devices
-    viewReportText();
-    alert('Please copy the text manually from the window that just opened.');
-  }
-}
-
-function exportPNG() {
-  // Create a canvas for the report
-  const canvas = document.createElement('canvas');
-  const W = 1123, H = 1587; // A4 portrait in pixels at 96 DPI
-  canvas.width = W;
-  canvas.height = H;
-  const ctx = canvas.getContext('2d');
-  
-  // White background
-  ctx.fillStyle = '#ffffff';
-  ctx.fillRect(0, 0, W, H);
-  
-  const margin = 60;
-  let y = margin;
-  
-  // Header
-  ctx.fillStyle = '#003366';
-  ctx.font = 'bold 28px Arial';
-  ctx.textAlign = 'center';
-  ctx.fillText('ALLIED FIRE PROTECTION PTY LTD', W/2, y);
-  y += 30;
-  
-  ctx.font = '14px Arial';
-  ctx.fillStyle = '#6b7280';
-  ctx.fillText('Fire Protection Contractors - Fire Protection Engineers', W/2, y);
-  y += 40;
-  
-  ctx.font = 'bold 20px Arial';
-  ctx.fillStyle = '#003366';
-  ctx.fillText('WATER SUPPLY FLOW TEST REPORT', W/2, y);
-  y += 50;
-  
-  // Site Information
-  ctx.textAlign = 'left';
-  ctx.font = 'bold 16px Arial';
-  ctx.fillStyle = '#003366';
-  ctx.fillText('SITE INFORMATION', margin, y);
-  y += 30;
-  
-  ctx.font = '14px Arial';
-  ctx.fillStyle = '#111827';
-  const site = {
-    name: document.getElementById('siteName').value || 'Unnamed Site',
-    address: document.getElementById('siteAddress').value || 'No address',
-    dateTest: document.getElementById('dateTest').value || new Date().toISOString().split('T')[0],
-    testType: document.getElementById('testType').value || 'Not specified',
-    servicePerson: document.getElementById('servicePerson').value || '',
-    licenseNumber: document.getElementById('licenseNumber').value || '',
-    attendanceRecord: document.getElementById('attendanceRecord').value || ''
+  // --- PWA manifest + service worker ---
+  const manifest = { name:"Orifice Sizing Tools", short_name:"OrificeSizing", start_url:".", display:"standalone",
+    background_color:"#0b0f14", theme_color:"#0b0f14",
+    icons:[{src:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' fill='%230b0f14'/%3E%3Ccircle cx='64' cy='64' r='46' fill='%234cc2ff'/%3E%3Cpath d='M64 28v72M28 64h72' stroke='%230b0f14' stroke-width='10' stroke-linecap='round'/%3E%3C/svg%3E", sizes:"128x128", type:"image/svg+xml"}]
   };
-  
-  ctx.fillText(`Project: ${site.name}`, margin, y); y += 25;
-  ctx.fillText(`Address: ${site.address}`, margin, y); y += 25;
-  ctx.fillText(`Date: ${site.dateTest}`, margin, y); y += 25;
-  ctx.fillText(`Test Type: ${site.testType}`, margin, y); y += 25;
-  ctx.fillText(`Service Person: ${site.servicePerson}`, margin, y); y += 25;
-  ctx.fillText(`License: ${site.licenseNumber}`, margin, y); y += 25;
-  ctx.fillText(`S/R No: ${site.attendanceRecord}`, margin, y); y += 40;
-  
-  // System Requirements
-  ctx.font = 'bold 16px Arial';
-  ctx.fillStyle = '#003366';
-  ctx.fillText('SYSTEM REQUIREMENTS', margin, y);
-  y += 30;
-  
-  ctx.font = '14px Arial';
-  ctx.fillStyle = '#111827';
-  const validZones = window.zones.filter(z => z.flow && z.pressure);
-  if (validZones.length > 0) {
-    validZones.forEach(z => {
-      ctx.fillText(`${z.name}: ${z.flow} L/min @ ${z.pressure} kPa`, margin, y);
-      y += 25;
-    });
-  } else {
-    ctx.fillStyle = '#6b7280';
-    ctx.fillText('No requirement zones entered', margin, y);
-    y += 25;
-  }
-  y += 20;
-  
-  // Achieved Results
-  ctx.font = 'bold 16px Arial';
-  ctx.fillStyle = '#003366';
-  ctx.fillText('ACHIEVED TEST RESULTS', margin, y);
-  y += 30;
-  
-  ctx.font = '14px Arial';
-  ctx.fillStyle = '#111827';
-  const validAchieved = window.achieved.filter(a => a.flow && a.pressure);
-  if (validAchieved.length > 0) {
-    validAchieved.forEach(a => {
-      ctx.fillText(`${a.flow} L/min @ ${a.pressure} kPa`, margin, y);
-      y += 25;
-    });
-  } else {
-    ctx.fillStyle = '#6b7280';
-    ctx.fillText('No test results entered', margin, y);
-    y += 25;
-  }
-  y += 20;
-  
-  // Equipment
-  const equipment = document.getElementById('equipment').value;
-  if (equipment) {
-    ctx.font = '14px Arial';
-    ctx.fillStyle = '#111827';
-    ctx.fillText(`Equipment Used: ${equipment}`, margin, y);
-    y += 40;
-  }
-  
-  // Graph
-  const svg = document.getElementById('flowGraph');
-  if (svg && validZones.length > 0 && validAchieved.length > 0) {
-    ctx.font = 'bold 16px Arial';
-    ctx.fillStyle = '#003366';
-    ctx.fillText('WATER SUPPLY ANALYSIS GRAPH', margin, y);
-    y += 30;
-    
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const img = new Image();
-    const svgBlob = new Blob([svgData], {type: 'image/svg+xml;charset=utf-8'});
-    const url = URL.createObjectURL(svgBlob);
-    
-    img.onload = function() {
-      const graphWidth = W - 2*margin;
-      const graphHeight = 400;
-      ctx.drawImage(img, margin, y, graphWidth, graphHeight);
-      y += graphHeight + 30;
-      
-      // Footer
-      ctx.font = '12px Arial';
-      ctx.fillStyle = '#6b7280';
-      ctx.textAlign = 'right';
-      ctx.fillText(`Generated: ${new Date().toLocaleString()}`, W - margin, H - 30);
-      
-      // Download
-      window.finalizePNG(canvas, site);
-      URL.revokeObjectURL(url);
-    };
-    
-    img.onerror = function() {
-      // If graph fails to load, just finish without it
-      window.finalizePNG(canvas, site);
-      URL.revokeObjectURL(url);
-    };
-    
-    img.src = url;
-  } else {
-    // No graph, just finish
-    ctx.font = '12px Arial';
-    ctx.fillStyle = '#6b7280';
-    ctx.textAlign = 'right';
-    ctx.fillText(`Generated: ${new Date().toLocaleString()}`, W - margin, H - 30);
-    window.finalizePNG(canvas, site);
-  }
-}
+  const manifestBlob = new Blob([JSON.stringify(manifest)], {type:'application/manifest+json'});
+  const manifestURL = URL.createObjectURL(manifestBlob);
+  document.getElementById('manifestLink').setAttribute('href', manifestURL);
 
-window.finalizePNG = function(canvas, site) {
-  const filename = `Flow_Test_Report_${site.testType.replace(/\s/g, '_')}_${site.name.replace(/\s/g, '_')}_${site.dateTest}.png`;
-  
-  canvas.toBlob(function(blob) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    
-    alert('✓ PNG report downloaded! Check your downloads folder.');
-  }, 'image/png');
-}
-
-// Initial render
-window.render();
-
-console.log('Script loaded - functions are:', {
-  addZone: typeof window.addZone,
-  addAchieved: typeof window.addAchieved,
-  calculateResult: typeof window.calculateResult
-});
+  if('serviceWorker' in navigator){
+    const swCode=`const CACHE='orifice-sizing-v1';
+    self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.add(new Request(self.location.href,{cache:'reload'}))));self.skipWaiting()});
+    self.addEventListener('activate',e=>{e.waitUntil(self.clients.claim())});
+    self.addEventListener('fetch',e=>{
+      e.respondWith(caches.match(e.request,{ignoreSearch:true}).then(r=>r||fetch(e.request).then(resp=>{
+        const copy=resp.clone(); caches.open(CACHE).then(c=>c.put(e.request,copy)).catch(()=>{}); return resp;
+      }).catch(()=>caches.match(new Request(self.location.href)))));
+    });`;
+    const swBlob=new Blob([swCode],{type:'text/javascript'});
+    const swURL=URL.createObjectURL(swBlob);
+    navigator.serviceWorker.register(swURL).catch(console.error);
+  }
 </script>
 </body>
 </html>
