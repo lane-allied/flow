@@ -76,7 +76,7 @@
 <body>
   <header>
     <h1>Orifice Sizing Tools – PWA</h1>
-    <div class="sub">Calculate orifice diameter and K‑factor from required flow and pressure</div>
+    <div class="sub">Calculate orifice diameter and K-factor from required flow and pressure</div>
   </header>
 
   <div class="wrap">
@@ -141,9 +141,9 @@
       </div>
     </section>
 
-    <!-- K‑Factor Calculator -->
+    <!-- K-Factor Calculator -->
     <section class="card">
-      <h2>K‑Factor Calculator</h2>
+      <h2>K-Factor Calculator</h2>
       <div>
         <div class="row">
           <div>
@@ -175,7 +175,7 @@
         </div>
 
         <div class="hr"></div>
-        <label>Calculated K‑factor</label>
+        <label>Calculated K-factor</label>
         <div class="result" id="k_metric">—</div>
         <div class="result" id="k_imperial">—</div>
 
@@ -184,7 +184,7 @@
 
         <div class="hr"></div>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <button id="k_copyBtn" class="btn">Copy K‑factor</button>
+          <button id="k_copyBtn" class="btn">Copy K-factor</button>
           <span id="k_copyHint" class="sub" aria-live="polite"></span>
         </div>
       </div>
@@ -247,7 +247,7 @@
     window.lastSize = { Q, Qu, Praw, Pu, Cd, dmm, din };
   }
 
-  // ---------- K‑FACTOR (flow+pressure → K) ----------
+  // ---------- K-Factor (flow+pressure → K) ----------
   function kFormulaText(){
     return 'Formula: K = Q / √P  (reported in Metric: L/min·√bar⁻¹ and Imperial: gpm·√psi⁻¹)';
   }
@@ -292,7 +292,7 @@
   function buildKSummary(){
     if(!window.lastK) return '';
     const qU = unitLabelFlow(window.lastK.Qu);
-    return `K‑Factor → Flow ${fmt(window.lastK.Qraw, (window.lastK.Qu==='Ls'?3:2))} ${qU} at ${fmt(window.lastK.Praw,2)} ${window.lastK.Pu} ` +
+    return `K-Factor → Flow ${fmt(window.lastK.Qraw, (window.lastK.Qu==='Ls'?3:2))} ${qU} at ${fmt(window.lastK.Praw,2)} ${window.lastK.Pu} ` +
            `→ K ≈ ${fmt(window.lastK.K_metric,2)} (L/min·√bar⁻¹), ${fmt(window.lastK.K_imper,2)} (gpm·√psi⁻¹)`;
   }
 
@@ -307,7 +307,7 @@
     }
   }
   s_copyBtn.addEventListener('click', ()=> copyText(s_copyHint, buildSizingSummary(), 'Copied sizing'));
-  k_copyBtn.addEventListener('click', ()=> copyText(k_copyHint, buildKSummary(), 'Copied K‑factor'));
+  k_copyBtn.addEventListener('click', ()=> copyText(k_copyHint, buildKSummary(), 'Copied K-factor'));
 
   // Tooltips
   function wireTooltip(infoId, tipId){
@@ -326,6 +326,22 @@
     });
   }
   wireTooltip('#s_cdInfo', '#s_tooltipCd');
+
+  // Add event listeners for auto-calculation on input changes
+  const sizingInputs = ['#s_q', '#s_qu', '#s_p', '#s_pu', '#s_cd'];
+  const kFactorInputs = ['#k_q', '#k_qu', '#k_p', '#k_pu'];
+
+  sizingInputs.forEach(sel => {
+    const el = $(sel);
+    el.addEventListener('input', calcSizing);
+    el.addEventListener('change', calcSizing);
+  });
+
+  kFactorInputs.forEach(sel => {
+    const el = $(sel);
+    el.addEventListener('input', calcKFactor);
+    el.addEventListener('change', calcKFactor);
+  });
 
   // initial render
   calcSizing();
